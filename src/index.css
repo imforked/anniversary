@@ -32,11 +32,16 @@
 
 html {
   color-scheme: light;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {
   margin: 0;
-  min-height: 100dvh;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   font: var(--text-body);
   color: var(--color-text);
   background-color: var(--color-bg);
@@ -47,7 +52,9 @@ body {
 }
 
 #root {
-  min-height: 100dvh;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 h1,

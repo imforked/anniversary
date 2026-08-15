@@ -7,10 +7,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  min-height: 100vh;
+  height: 100%;
   padding: 48px 24px;
   text-align: center;
   overflow: hidden;
+  overscroll-behavior: none;
 `;
 
 export const BackgroundVideo = styled.video`
