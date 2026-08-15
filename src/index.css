@@ -1,1 +1,83 @@
 @import "normalize.css";
+
+:root {
+  /* Hinge core palette (official brand resources) */
+  --hinge-white: #fffeFd;
+  --hinge-black: #1a1a1a;
+  --kohlrabi: #994ea8;
+
+  --color-bg: var(--hinge-white);
+  --color-text: var(--hinge-black);
+  --color-text-muted: color-mix(in srgb, var(--hinge-black) 64%, var(--hinge-white));
+  --color-accent: var(--kohlrabi);
+  --color-border: color-mix(in srgb, var(--hinge-black) 12%, var(--hinge-white));
+
+  /* Stand-ins: Tiempos Headline → Newsreader, Modern Era → Plus Jakarta Sans */
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --text-body: 400 1rem/1.5 var(--font-sans);
+  --text-body-medium: 500 1rem/1.5 var(--font-sans);
+  --text-label: 500 0.875rem/1.4 var(--font-sans);
+  --text-button: 700 1rem/1.25 var(--font-sans);
+  --text-headline: 700 clamp(2.25rem, 5vw, 3.75rem)/1.1 var(--font-serif);
+  --text-title: 700 clamp(1.5rem, 3vw, 2.25rem)/1.2 var(--font-serif);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font: var(--text-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font: var(--text-headline);
+  color: var(--color-text);
+}
+
+h2 {
+  font: var(--text-title);
+}
+
+h3 {
+  font: var(--text-title);
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
