@@ -1,5 +1,8 @@
+import { useState } from "react";
 import backgroundVideo from "./assets/background.mp4";
 import { Button } from "../Button";
+import { CreateAccountForm } from "../CreateAccountForm";
+import { SignInForm } from "../SignInForm";
 import * as S from "./Login.styles";
 
 const handleVideoLoaded = (
@@ -9,6 +12,9 @@ const handleVideoLoaded = (
 };
 
 export const Login = () => {
+  const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+
   return (
     <S.Container>
       <S.BackgroundVideo
@@ -25,9 +31,25 @@ export const Login = () => {
         <S.Headline>Designed to be deleted.</S.Headline>
       </S.Top>
       <S.Actions>
-        <Button variant="primary">Create account</Button>
-        <Button variant="transparent">Sign in</Button>
+        <Button
+          variant="primary"
+          onClick={() => setIsCreateAccountOpen(true)}
+        >
+          Create account
+        </Button>
+        <Button variant="transparent" onClick={() => setIsSignInOpen(true)}>
+          Sign in
+        </Button>
       </S.Actions>
+
+      <CreateAccountForm
+        isOpen={isCreateAccountOpen}
+        onClose={() => setIsCreateAccountOpen(false)}
+      />
+      <SignInForm
+        isOpen={isSignInOpen}
+        onClose={() => setIsSignInOpen(false)}
+      />
     </S.Container>
   );
 };
