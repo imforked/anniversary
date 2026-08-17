@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
     "normalize.css": "^8.0.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "styled-components": "^6.5.3"
+    "react-hook-form": "^7.85.0",
+    "styled-components": "^6.5.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

@@ -11,6 +11,7 @@ export const Form = styled.form`
 `;
 
 export const Field = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -24,10 +25,11 @@ export const Label = styled.label`
   color: var(--color-text);
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid var(--color-border);
+  border: 1px solid
+    ${(props) => (props.$hasError ? "#b42318" : "var(--color-border)")};
   border-radius: 12px;
   font-family: var(--font-sans);
   font-size: 16px;
@@ -35,16 +37,21 @@ export const Input = styled.input`
   background-color: var(--hinge-white);
 
   &:focus {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid
+      ${(props) => (props.$hasError ? "#b42318" : "var(--color-accent)")};
     outline-offset: 1px;
   }
 `;
 
 export const ErrorMessage = styled.p`
-  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 2px 0 0;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 500;
+  line-height: 1.2;
   color: #b42318;
   text-align: left;
 `;
