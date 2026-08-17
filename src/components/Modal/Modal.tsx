@@ -3,28 +3,16 @@ import * as S from "./Modal.styles";
 import type { ModalProps } from "./Modal.types";
 
 export const Modal = ({ isOpen, title, onClose, children }: ModalProps) => {
-  const [shouldRender, setShouldRender] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(isOpen);
 
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
-
-      // Wait two frames so the closed styles paint before we animate open.
-      const frameId = requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setIsVisible(true);
-        });
-      });
-
-      return () => cancelAnimationFrame(frameId);
     }
-
-    setIsVisible(false);
   }, [isOpen]);
 
-  const handleTransitionEnd = (
-    event: React.TransitionEvent<HTMLDivElement>,
+  const handleAnimationEnd = (
+    event: React.AnimationEvent<HTMLDivElement>,
   ) => {
     if (event.target !== event.currentTarget) {
       return;
@@ -41,12 +29,12 @@ export const Modal = ({ isOpen, title, onClose, children }: ModalProps) => {
 
   return (
     <S.Overlay
-      $isOpen={isVisible}
+      $isOpen={isOpen}
       onClick={onClose}
-      onTransitionEnd={handleTransitionEnd}
+      onAnimationEnd={handleAnimationEnd}
     >
       <S.Panel
-        $isOpen={isVisible}
+        $isOpen={isOpen}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

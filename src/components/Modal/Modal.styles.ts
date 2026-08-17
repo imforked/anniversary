@@ -1,8 +1,52 @@
-import { styled } from "styled-components";
+import { keyframes, styled } from "styled-components";
 
 type OpenProps = {
   $isOpen: boolean;
 };
+
+const overlayIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+const overlayOut = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+`;
+
+const panelIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
+
+const panelOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+`;
 
 export const Overlay = styled.div<OpenProps>`
   position: fixed;
@@ -13,8 +57,8 @@ export const Overlay = styled.div<OpenProps>`
   justify-content: center;
   padding: 16px;
   background-color: rgba(0, 0, 0, 0.75);
-  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
-  transition: opacity 0.25s ease;
+  animation: ${(props) => (props.$isOpen ? overlayIn : overlayOut)} 0.25s ease
+    forwards;
 `;
 
 export const Panel = styled.div<OpenProps>`
@@ -26,11 +70,8 @@ export const Panel = styled.div<OpenProps>`
   border-radius: 24px;
   background-color: var(--hinge-white);
   color: var(--color-text);
-  transform: scale(${(props) => (props.$isOpen ? 1 : 0.96)});
-  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
+  animation: ${(props) => (props.$isOpen ? panelIn : panelOut)} 0.25s ease
+    forwards;
 `;
 
 export const Header = styled.div`
