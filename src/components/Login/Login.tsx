@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import backgroundVideo from "./assets/background.mp4";
 import { Button } from "../Button";
 import { CreateAccountForm } from "../CreateAccountForm";
@@ -12,8 +13,28 @@ const handleVideoLoaded = (
 };
 
 export const Login = () => {
+  const navigate = useNavigate();
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  const handleSuccess = () => {
+    setIsLeaving(true);
+  };
+
+  const handleFadeOutEnd = (
+    event: React.TransitionEvent<HTMLDivElement>,
+  ) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    if (!isLeaving) {
+      return;
+    }
+
+    navigate("/discover");
+  };
 
   return (
     <S.Container>
@@ -45,10 +66,17 @@ export const Login = () => {
       <CreateAccountForm
         isOpen={isCreateAccountOpen}
         onClose={() => setIsCreateAccountOpen(false)}
+        onSuccess={handleSuccess}
       />
       <SignInForm
         isOpen={isSignInOpen}
         onClose={() => setIsSignInOpen(false)}
+        onSuccess={handleSuccess}
+      />
+
+      <S.FadeCover
+        $isVisible={isLeaving}
+        onTransitionEnd={handleFadeOutEnd}
       />
     </S.Container>
   );

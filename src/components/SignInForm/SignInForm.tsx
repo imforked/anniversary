@@ -17,7 +17,7 @@ const signInSchema = z.object({
 
 type SignInValues = z.infer<typeof signInSchema>;
 
-export const SignInForm = ({ isOpen, onClose }: SignInFormProps) => {
+export const SignInForm = ({ isOpen, onClose, onSuccess }: SignInFormProps) => {
   const {
     register,
     handleSubmit,
@@ -37,7 +37,8 @@ export const SignInForm = ({ isOpen, onClose }: SignInFormProps) => {
   };
 
   const onSubmit = () => {
-    handleClose();
+    reset();
+    onSuccess();
   };
 
   return (

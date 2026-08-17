@@ -14,6 +14,16 @@ export const Container = styled.div`
   overscroll-behavior: none;
 `;
 
+export const FadeCover = styled.div<{ $isVisible: boolean }>`
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: var(--color-bg);
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+  pointer-events: ${(props) => (props.$isVisible ? "auto" : "none")};
+  transition: opacity 0.4s ease;
+`;
+
 export const BackgroundVideo = styled.video`
   position: fixed;
   top: 0;

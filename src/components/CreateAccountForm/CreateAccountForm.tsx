@@ -24,6 +24,7 @@ type CreateAccountValues = z.infer<typeof createAccountSchema>;
 export const CreateAccountForm = ({
   isOpen,
   onClose,
+  onSuccess,
 }: CreateAccountFormProps) => {
   const {
     register,
@@ -45,7 +46,8 @@ export const CreateAccountForm = ({
   };
 
   const onSubmit = () => {
-    handleClose();
+    reset();
+    onSuccess();
   };
 
   return (
