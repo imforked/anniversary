@@ -46,7 +46,6 @@ export const CreateAccountForm = ({
   };
 
   const onSubmit = () => {
-    reset();
     onSuccess();
   };
 

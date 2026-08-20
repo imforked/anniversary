@@ -37,7 +37,6 @@ export const SignInForm = ({ isOpen, onClose, onSuccess }: SignInFormProps) => {
   };
 
   const onSubmit = () => {
-    reset();
     onSuccess();
   };
 
