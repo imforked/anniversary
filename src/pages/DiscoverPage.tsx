@@ -7,6 +7,20 @@ import * as S from "./DiscoverPage.styles";
 
 const melissaProfile = profiles[0];
 
+const PassIcon = () => {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M6 6l12 12M18 6L6 18"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
 export const DiscoverPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,30 +36,35 @@ export const DiscoverPage = () => {
 
   return (
     <S.Page>
-      <ProfileName name={melissaProfile.name} />
-      <S.Feed>
-        {melissaProfile.blocks.map((block, index) => {
-          if (block.type === "image") {
+      <S.Scrollable>
+        <ProfileName name={melissaProfile.name} />
+        <S.Feed>
+          {melissaProfile.blocks.map((block, index) => {
+            if (block.type === "image") {
+              return (
+                <ProfileCard
+                  key={`${melissaProfile.id}-${index}`}
+                  variant="image"
+                  src={block.src}
+                  alt={block.alt}
+                />
+              );
+            }
+
             return (
               <ProfileCard
                 key={`${melissaProfile.id}-${index}`}
-                variant="image"
-                src={block.src}
-                alt={block.alt}
+                variant="text"
+                prompt={block.prompt}
+                answer={block.answer}
               />
             );
-          }
-
-          return (
-            <ProfileCard
-              key={`${melissaProfile.id}-${index}`}
-              variant="text"
-              prompt={block.prompt}
-              answer={block.answer}
-            />
-          );
-        })}
-      </S.Feed>
+          })}
+        </S.Feed>
+      </S.Scrollable>
+      <S.PassButton type="button" aria-label="Pass">
+        <PassIcon />
+      </S.PassButton>
       <Loader isVisible={isLoading} />
     </S.Page>
   );
