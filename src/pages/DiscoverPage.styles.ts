@@ -38,6 +38,11 @@ export const PassButton = styled.button`
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(26, 26, 26, 0.16);
 
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
   svg {
     width: 30px;
     height: 30px;

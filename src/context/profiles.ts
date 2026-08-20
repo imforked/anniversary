@@ -17,4 +17,20 @@ export const profiles: Profile[] = [
       },
     ],
   },
+  {
+    id: "alex",
+    name: "Alex",
+    blocks: [
+      {
+        type: "image",
+        src: "/melissa-placeholder.svg",
+        alt: "Alex",
+      },
+      {
+        type: "text",
+        prompt: "My simple pleasure",
+        answer: "Morning coffee on the porch.",
+      },
+    ],
+  },
 ];

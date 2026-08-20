@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Loader } from "../components/Loader";
 import { ProfileCard } from "../components/ProfileCard";
 import { ProfileName } from "../components/ProfileName";
 import { profiles } from "../context/profiles";
 import * as S from "./DiscoverPage.styles";
-
-const melissaProfile = profiles[0];
 
 const PassIcon = () => {
   return (
@@ -23,6 +22,10 @@ const PassIcon = () => {
 
 export const DiscoverPage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [profileIndex, setProfileIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const profile = profiles[profileIndex];
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -34,35 +37,55 @@ export const DiscoverPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, 0);
+  }, [profileIndex]);
+
+  const handlePass = () => {
+    setProfileIndex(
+      (currentIndex) => (currentIndex + 1) % profiles.length,
+    );
+  };
+
   return (
     <S.Page>
-      <S.Scrollable>
-        <ProfileName name={melissaProfile.name} />
-        <S.Feed>
-          {melissaProfile.blocks.map((block, index) => {
-            if (block.type === "image") {
-              return (
-                <ProfileCard
-                  key={`${melissaProfile.id}-${index}`}
-                  variant="image"
-                  src={block.src}
-                  alt={block.alt}
-                />
-              );
-            }
+      <S.Scrollable ref={scrollRef}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={profile.id}
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -24 }}
+            transition={{ duration: 0.16, ease: [0.32, 0.72, 0, 1] }}
+          >
+            <ProfileName name={profile.name} />
+            <S.Feed>
+              {profile.blocks.map((block, index) => {
+                if (block.type === "image") {
+                  return (
+                    <ProfileCard
+                      key={`${profile.id}-${index}`}
+                      variant="image"
+                      src={block.src}
+                      alt={block.alt}
+                    />
+                  );
+                }
 
-            return (
-              <ProfileCard
-                key={`${melissaProfile.id}-${index}`}
-                variant="text"
-                prompt={block.prompt}
-                answer={block.answer}
-              />
-            );
-          })}
-        </S.Feed>
+                return (
+                  <ProfileCard
+                    key={`${profile.id}-${index}`}
+                    variant="text"
+                    prompt={block.prompt}
+                    answer={block.answer}
+                  />
+                );
+              })}
+            </S.Feed>
+          </motion.div>
+        </AnimatePresence>
       </S.Scrollable>
-      <S.PassButton type="button" aria-label="Pass">
+      <S.PassButton type="button" aria-label="Pass" onClick={handlePass}>
         <PassIcon />
       </S.PassButton>
       <Loader isVisible={isLoading} />
