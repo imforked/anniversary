@@ -12,7 +12,7 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
   const isOpen = useRef(true);
   const formRevealed = useRef(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const backupTimer = useRef<number>();
+  const backupTimer = useRef<number | undefined>(undefined);
 
   const revealForm = () => {
     if (isOpen.current && !formRevealed.current) {
@@ -22,7 +22,10 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
   };
 
   useEffect(() => {
-    backupTimer.current = window.setTimeout(revealForm, blockDuration * 1000 + 100);
+    backupTimer.current = window.setTimeout(
+      revealForm,
+      blockDuration * 1000 + 100,
+    );
 
     return () => {
       if (backupTimer.current) {
