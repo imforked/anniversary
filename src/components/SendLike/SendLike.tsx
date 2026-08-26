@@ -104,8 +104,8 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
               <S.CommentField
                 value={comment}
                 onChange={(event) => setComment(event.target.value)}
-                placeholder="there's a vertical scroll when liking a pic..."
-                rows={2}
+                placeholder="Add a comment"
+                rows={1}
               />
               <S.SendButton type="button" onClick={handleClose}>
                 Send Like

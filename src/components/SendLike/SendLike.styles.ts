@@ -44,8 +44,9 @@ export const Form = styled(motion.div)`
 
 export const CommentField = styled.textarea`
   width: 100%;
-  min-height: 56px;
-  padding: 14px 16px;
+  min-height: 44px;
+  height: 44px;
+  padding: 10px 14px;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   font-family: var(--font-sans);
