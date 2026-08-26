@@ -103,7 +103,7 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
             <S.Form
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.2, ease }}
+              transition={{ duration: 0.45, ease }}
             >
               <S.CommentField
                 value={comment}
