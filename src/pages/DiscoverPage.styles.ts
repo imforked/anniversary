@@ -1,10 +1,26 @@
+import { motion } from "motion/react";
 import { styled } from "styled-components";
 
 export const Page = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
   background-color: #ffffff;
+`;
+
+export const NameBar = styled.div`
+  position: relative;
+  z-index: 5;
+  flex-shrink: 0;
+  background-color: #ffffff;
+`;
+
+export const Body = styled.div`
+  position: relative;
+  flex: 1;
+  min-height: 0;
 `;
 
 export const Scrollable = styled.div`
@@ -20,7 +36,11 @@ export const Feed = styled.div`
   padding: 0 16px 96px;
 `;
 
-export const PassButton = styled.button`
+export const FeedCard = styled(motion.div)`
+  width: 100%;
+`;
+
+export const PassButton = styled(motion.button)`
   position: absolute;
   bottom: 24px;
   left: 24px;
@@ -37,11 +57,6 @@ export const PassButton = styled.button`
   color: var(--color-text);
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(26, 26, 26, 0.16);
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
 
   svg {
     width: 30px;
