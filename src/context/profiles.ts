@@ -13,9 +13,10 @@ export const profiles: Profile[] = [
       {
         type: "text",
         prompt: "I'm weirdly attracted to",
-        answer: "metal... person...",
+        answer:
+          "metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...",
       },
-            {
+      {
         type: "image",
         src: "/melissa-placeholder.svg",
         alt: "Melissa",

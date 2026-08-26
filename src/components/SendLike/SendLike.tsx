@@ -93,7 +93,11 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
             onLayoutAnimationStart={handleLayoutAnimationStart}
             onLayoutAnimationComplete={handleLayoutAnimationComplete}
           >
-            <ProfileCard block={block} showLikeButton={false} />
+            <ProfileCard
+              block={block}
+              showLikeButton={false}
+              constrainTextToSquare
+            />
           </S.CardSlot>
           {showForm ? (
             <S.Form

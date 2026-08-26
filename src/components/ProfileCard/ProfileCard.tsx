@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import * as S from "./ProfileCard.styles";
 import type { ProfileCardProps } from "./ProfileCard.types";
 
@@ -19,16 +20,51 @@ export const ProfileCard = ({
   block,
   onLike,
   showLikeButton = true,
+  constrainTextToSquare = false,
 }: ProfileCardProps) => {
+  const textRef = useRef<HTMLDivElement>(null);
+  const [isTextOverflowing, setIsTextOverflowing] = useState(false);
+  const constrainText = block.type === "text" && constrainTextToSquare;
+  const isSquare = block.type === "image" || constrainText;
+
+  useEffect(() => {
+    if (!constrainText) {
+      setIsTextOverflowing(false);
+      return;
+    }
+
+    const element = textRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const updateOverflow = () => {
+      setIsTextOverflowing(element.scrollHeight > element.clientHeight + 1);
+    };
+
+    updateOverflow();
+
+    const observer = new ResizeObserver(updateOverflow);
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [block, constrainText]);
+
   return (
-    <S.Card $variant={block.type}>
+    <S.Card $square={isSquare}>
       {block.type === "image" ? (
         <S.Photo src={block.src} alt={block.alt} />
       ) : (
-        <S.TextContent>
-          <S.Prompt>{block.prompt}</S.Prompt>
-          <S.Answer>{block.answer}</S.Answer>
-        </S.TextContent>
+        <>
+          <S.TextContent ref={textRef} $constrained={constrainText}>
+            <S.Prompt>{block.prompt}</S.Prompt>
+            <S.Answer>{block.answer}</S.Answer>
+          </S.TextContent>
+          {constrainText && isTextOverflowing ? <S.TextFade /> : null}
+        </>
       )}
 
       {showLikeButton ? (
