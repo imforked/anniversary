@@ -17,6 +17,14 @@ export const NameBar = styled.div`
   background-color: #ffffff;
 `;
 
+export const Main = styled.div`
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Body = styled.div`
   position: relative;
   flex: 1;
