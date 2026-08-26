@@ -15,21 +15,27 @@ const HeartIcon = () => {
   );
 };
 
-export const ProfileCard = (props: ProfileCardProps) => {
+export const ProfileCard = ({
+  block,
+  onLike,
+  showLikeButton = true,
+}: ProfileCardProps) => {
   return (
-    <S.Card $variant={props.variant}>
-      {props.variant === "image" ? (
-        <S.Photo src={props.src} alt={props.alt} />
+    <S.Card $variant={block.type}>
+      {block.type === "image" ? (
+        <S.Photo src={block.src} alt={block.alt} />
       ) : (
         <S.TextContent>
-          <S.Prompt>{props.prompt}</S.Prompt>
-          <S.Answer>{props.answer}</S.Answer>
+          <S.Prompt>{block.prompt}</S.Prompt>
+          <S.Answer>{block.answer}</S.Answer>
         </S.TextContent>
       )}
 
-      <S.LikeButton type="button" aria-label="Like">
-        <HeartIcon />
-      </S.LikeButton>
+      {showLikeButton ? (
+        <S.LikeButton type="button" aria-label="Like" onClick={onLike}>
+          <HeartIcon />
+        </S.LikeButton>
+      ) : null}
     </S.Card>
   );
 };

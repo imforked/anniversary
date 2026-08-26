@@ -1,11 +1,7 @@
-export type ProfileCardProps =
-  | {
-      variant: "image";
-      src: string;
-      alt: string;
-    }
-  | {
-      variant: "text";
-      prompt: string;
-      answer: string;
-    };
+import type { ProfileBlock } from "../../context/profiles.types";
+
+export type ProfileCardProps = {
+  block: ProfileBlock;
+  onLike?: () => void;
+  showLikeButton?: boolean;
+};

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export const Card = styled.article<{ $variant: "image" | "text" }>`
+export const Card = styled.article<{ $variant: string }>`
   position: relative;
   width: 100%;
   overflow: hidden;
