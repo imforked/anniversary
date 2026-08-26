@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Dashboard } from "../components/Dashboard";
 import { Loader } from "../components/Loader";
 import { ProfileCard } from "../components/ProfileCard";
@@ -27,8 +28,17 @@ const layoutTransition = {
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
+type DiscoverLocationState = {
+  fromLogin?: boolean;
+};
+
 export const DiscoverPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const showLoaderOnMount = useRef(
+    Boolean((location.state as DiscoverLocationState | null)?.fromLogin),
+  ).current;
+  const [isLoading, setIsLoading] = useState(showLoaderOnMount);
   const [profileIndex, setProfileIndex] = useState(0);
   const [likedIndex, setLikedIndex] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -37,6 +47,12 @@ export const DiscoverPage = () => {
   const likedBlock = likedIndex === null ? null : profile.blocks[likedIndex];
 
   useEffect(() => {
+    if (!showLoaderOnMount) {
+      return;
+    }
+
+    navigate(".", { replace: true, state: null });
+
     const timeoutId = window.setTimeout(() => {
       setIsLoading(false);
     }, 1200);
@@ -44,7 +60,7 @@ export const DiscoverPage = () => {
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, []);
+  }, [navigate, showLoaderOnMount]);
 
   const handlePass = () => {
     setProfileIndex((currentIndex) => (currentIndex + 1) % profiles.length);

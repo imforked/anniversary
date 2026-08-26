@@ -33,7 +33,7 @@ export const Login = () => {
       return;
     }
 
-    navigate("/discover");
+    navigate("/discover", { state: { fromLogin: true } });
   };
 
   return (
