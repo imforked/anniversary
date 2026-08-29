@@ -4,6 +4,10 @@ export const profiles: Profile[] = [
   {
     id: "melissa",
     name: "Melissa",
+    photo: {
+      src: "/melissa-placeholder.svg",
+      alt: "Melissa",
+    },
     blocks: [
       {
         type: "image",
@@ -26,6 +30,10 @@ export const profiles: Profile[] = [
   {
     id: "alex",
     name: "Alex",
+    photo: {
+      src: "/melissa-placeholder.svg",
+      alt: "Alex",
+    },
     blocks: [
       {
         type: "image",
@@ -40,3 +48,7 @@ export const profiles: Profile[] = [
     ],
   },
 ];
+
+export const getProfileById = (profileId: string) => {
+  return profiles.find((profile) => profile.id === profileId);
+};

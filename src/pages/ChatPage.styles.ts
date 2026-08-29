@@ -51,3 +51,10 @@ export const Body = styled.div`
   overflow-y: auto;
   overscroll-behavior: none;
 `;
+
+export const Messages = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 0 24px;
+`;

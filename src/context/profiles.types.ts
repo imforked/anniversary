@@ -1,7 +1,10 @@
-export type ImageBlock = {
-  type: "image";
+export type ProfileImage = {
   src: string;
   alt: string;
+};
+
+export type ImageBlock = ProfileImage & {
+  type: "image";
 };
 
 export type TextBlock = {
@@ -15,5 +18,6 @@ export type ProfileBlock = ImageBlock | TextBlock;
 export type Profile = {
   id: string;
   name: string;
+  photo: ProfileImage;
   blocks: ProfileBlock[];
 };

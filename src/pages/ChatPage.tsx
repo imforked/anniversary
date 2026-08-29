@@ -1,6 +1,7 @@
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { IncomingMessage } from "../components/IncomingMessage";
 import { LikeIntro } from "../components/LikeIntro";
-import { profiles } from "../context/profiles";
+import { getProfileById } from "../context/profiles";
 import type { ChatLocationState } from "./chat.types";
 import * as S from "./ChatPage.styles";
 
@@ -23,7 +24,7 @@ export const ChatPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { profileId } = useParams();
-  const profile = profiles.find((entry) => entry.id === profileId);
+  const profile = profileId ? getProfileById(profileId) : undefined;
   const chatState = location.state as ChatLocationState | null;
 
   if (!profile) {
@@ -46,6 +47,9 @@ export const ChatPage = () => {
         {chatState ? (
           <LikeIntro block={chatState.likedBlock} comment={chatState.comment} />
         ) : null}
+        <S.Messages>
+          <IncomingMessage photo={profile.photo} text="I'm a teacher" />
+        </S.Messages>
       </S.Body>
     </S.Page>
   );
