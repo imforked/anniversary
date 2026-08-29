@@ -63,7 +63,9 @@ export const DiscoverPage = () => {
     ? getProfileById(pendingMatch.profileId)
     : profile;
   const likedBlock =
-    profile && likedIndex !== null ? profile.blocks[likedIndex] : null;
+    visibleProfile && likedIndex !== null
+      ? visibleProfile.blocks[likedIndex]
+      : null;
 
   useEffect(() => {
     if (!showLoaderOnMount) {
@@ -110,7 +112,6 @@ export const DiscoverPage = () => {
     }
 
     setPendingMatch({ profileId: profile.id, photo: profile.photo });
-    setLikedIndex(null);
     likeProfile(profile.id, { comment, likedBlock });
     startMatch(profile.id, profile.photo);
   };
@@ -187,10 +188,10 @@ export const DiscoverPage = () => {
           </S.Body>
           <Dashboard />
           <AnimatePresence>
-            {likedBlock && profile ? (
+            {likedBlock && visibleProfile ? (
               <SendLike
                 block={likedBlock}
-                blockLayoutId={`${profile.id}-block-${likedIndex}`}
+                blockLayoutId={`${visibleProfile.id}-block-${likedIndex}`}
                 onCancel={() => setLikedIndex(null)}
                 onSend={handleSendLike}
               />

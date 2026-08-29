@@ -19,6 +19,7 @@ export const SendLike = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const backupTimer = useRef<number | undefined>(undefined);
+  const hasSent = useRef(false);
 
   const revealForm = () => {
     if (isOpen.current && !formRevealed.current) {
@@ -74,8 +75,12 @@ export const SendLike = ({
   };
 
   const handleSend = () => {
-    isOpen.current = false;
-    setShowForm(false);
+    if (hasSent.current) {
+      return;
+    }
+
+    hasSent.current = true;
+    commentRef.current?.blur();
 
     if (backupTimer.current) {
       window.clearTimeout(backupTimer.current);
