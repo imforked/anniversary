@@ -98,7 +98,7 @@ export const DiscoverPage = () => {
 
     likeProfile(profile.id, { comment, likedBlock });
     setLikedIndex(null);
-    navigate(`/messages/${profile.id}`);
+    navigate(`/messages/${profile.id}`, { state: { showMatch: true } });
   };
 
   return (
