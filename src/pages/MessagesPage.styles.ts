@@ -17,6 +17,7 @@ export const Body = styled.div`
   justify-content: center;
   gap: 8px;
   padding: 24px;
+  text-align: center;
 `;
 
 export const Title = styled.h1`
@@ -30,8 +31,10 @@ export const Title = styled.h1`
 
 export const Subtitle = styled.p`
   margin: 0;
+  max-width: 280px;
   font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 400;
+  line-height: 1.4;
   color: var(--color-text-muted);
 `;
