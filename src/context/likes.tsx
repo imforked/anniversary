@@ -1,32 +1,71 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { profiles } from "./profiles";
+import { getProfileById, profiles } from "./profiles";
 import type { Profile } from "./profiles.types";
+import type { Match } from "./matches.types";
 
 type LikesContextValue = {
-  likeProfile: (profileId: string) => void;
+  likeProfile: (
+    profileId: string,
+    data: { comment: string; likedBlock: Match["likedBlock"] },
+  ) => void;
   passProfile: (profileId: string) => void;
   availableProfiles: Profile[];
+  matches: Match[];
+  getMatch: (profileId: string) => Match | undefined;
 };
 
 const LikesContext = createContext<LikesContextValue | null>(null);
 
+const buildInitialMessages = (comment: string): Match["messages"] => {
+  const messages: Match["messages"] = [];
+
+  if (comment.trim()) {
+    messages.push({ sender: "user", text: comment.trim() });
+  }
+
+  messages.push({ sender: "them", text: "I'm a teacher" });
+
+  return messages;
+};
+
 export const LikesProvider = ({ children }: { children: ReactNode }) => {
   const [likedProfileIds, setLikedProfileIds] = useState<string[]>([]);
   const [passedProfileIds, setPassedProfileIds] = useState<string[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
 
-  const likeProfile = (profileId: string) => {
+  const likeProfile = (
+    profileId: string,
+    data: { comment: string; likedBlock: Match["likedBlock"] },
+  ) => {
     setLikedProfileIds((current) => {
       if (current.includes(profileId)) {
         return current;
       }
 
       return [...current, profileId];
+    });
+
+    setMatches((current) => {
+      if (current.some((match) => match.profileId === profileId)) {
+        return current;
+      }
+
+      return [
+        ...current,
+        {
+          profileId,
+          likedBlock: data.likedBlock,
+          comment: data.comment,
+          messages: buildInitialMessages(data.comment),
+        },
+      ];
     });
   };
 
@@ -40,6 +79,13 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const getMatch = useCallback(
+    (profileId: string) => {
+      return matches.find((match) => match.profileId === profileId);
+    },
+    [matches],
+  );
+
   const availableProfiles = useMemo(
     () =>
       profiles.filter(
@@ -51,8 +97,14 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const value = useMemo(
-    () => ({ likeProfile, passProfile, availableProfiles }),
-    [availableProfiles],
+    () => ({
+      likeProfile,
+      passProfile,
+      availableProfiles,
+      matches,
+      getMatch,
+    }),
+    [availableProfiles, getMatch, matches],
   );
 
   return (
@@ -68,4 +120,31 @@ export const useLikes = () => {
   }
 
   return context;
+};
+
+export const useMatchList = () => {
+  const { matches } = useLikes();
+
+  return useMemo(
+    () =>
+      [...matches]
+        .reverse()
+        .map((match) => {
+          const profile = getProfileById(match.profileId);
+
+          if (!profile) {
+            return null;
+          }
+
+          const lastMessage =
+            match.messages[match.messages.length - 1]?.text ?? "";
+
+          return {
+            profile,
+            lastMessage,
+          };
+        })
+        .filter((entry) => entry !== null),
+    [matches],
+  );
 };

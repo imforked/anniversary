@@ -1,8 +1,8 @@
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { IncomingMessage } from "../components/IncomingMessage";
 import { LikeIntro } from "../components/LikeIntro";
+import { useLikes } from "../context/likes";
 import { getProfileById } from "../context/profiles";
-import type { ChatLocationState } from "./chat.types";
 import * as S from "./ChatPage.styles";
 
 const BackIcon = () => {
@@ -22,14 +22,17 @@ const BackIcon = () => {
 
 export const ChatPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { profileId } = useParams();
+  const { getMatch } = useLikes();
   const profile = profileId ? getProfileById(profileId) : undefined;
-  const chatState = location.state as ChatLocationState | null;
+  const match = profileId ? getMatch(profileId) : undefined;
 
   if (!profile) {
     return <Navigate to="/messages" replace />;
   }
+
+  const incomingMessages =
+    match?.messages.filter((message) => message.sender === "them") ?? [];
 
   return (
     <S.Page>
@@ -44,11 +47,17 @@ export const ChatPage = () => {
         <S.Name>{profile.name}</S.Name>
       </S.Header>
       <S.Body>
-        {chatState ? (
-          <LikeIntro block={chatState.likedBlock} comment={chatState.comment} />
+        {match ? (
+          <LikeIntro block={match.likedBlock} comment={match.comment} />
         ) : null}
         <S.Messages>
-          <IncomingMessage photo={profile.photo} text="I'm a teacher" />
+          {incomingMessages.map((message, index) => (
+            <IncomingMessage
+              key={`${message.text}-${index}`}
+              photo={profile.photo}
+              text={message.text}
+            />
+          ))}
         </S.Messages>
       </S.Body>
     </S.Page>

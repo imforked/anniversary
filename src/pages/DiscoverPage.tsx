@@ -96,11 +96,9 @@ export const DiscoverPage = () => {
       return;
     }
 
-    likeProfile(profile.id);
+    likeProfile(profile.id, { comment, likedBlock });
     setLikedIndex(null);
-    navigate(`/messages/${profile.id}`, {
-      state: { likedBlock, comment },
-    });
+    navigate(`/messages/${profile.id}`);
   };
 
   return (
