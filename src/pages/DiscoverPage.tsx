@@ -70,6 +70,12 @@ export const DiscoverPage = () => {
     scrollRef.current?.scrollTo(0, 0);
   };
 
+  const handleSendLike = () => {
+    const likedProfileId = profile.id;
+    setLikedIndex(null);
+    navigate(`/messages/${likedProfileId}`);
+  };
+
   return (
     <LayoutGroup>
       <S.Page>
@@ -136,6 +142,7 @@ export const DiscoverPage = () => {
                 block={likedBlock}
                 blockLayoutId={`${profile.id}-block-${likedIndex}`}
                 onCancel={() => setLikedIndex(null)}
+                onSend={handleSendLike}
               />
             ) : null}
           </AnimatePresence>

@@ -4,4 +4,5 @@ export type SendLikeProps = {
   block: ProfileBlock;
   blockLayoutId: string;
   onCancel: () => void;
+  onSend: () => void;
 };

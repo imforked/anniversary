@@ -6,7 +6,12 @@ import type { SendLikeProps } from "./SendLike.types";
 const ease = [0.32, 0.72, 0, 1] as const;
 const blockDuration = 0.5;
 
-export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
+export const SendLike = ({
+  block,
+  blockLayoutId,
+  onCancel,
+  onSend,
+}: SendLikeProps) => {
   const [comment, setComment] = useState("");
   const [showForm, setShowForm] = useState(false);
   const isOpen = useRef(true);
@@ -57,6 +62,17 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
     }
 
     revealForm();
+  };
+
+  const handleSend = () => {
+    isOpen.current = false;
+    setShowForm(false);
+
+    if (backupTimer.current) {
+      window.clearTimeout(backupTimer.current);
+    }
+
+    onSend();
   };
 
   const handleClose = () => {
@@ -111,7 +127,7 @@ export const SendLike = ({ block, blockLayoutId, onCancel }: SendLikeProps) => {
                 placeholder="Add a comment"
                 rows={1}
               />
-              <S.SendButton type="button" onClick={handleClose}>
+              <S.SendButton type="button" onClick={handleSend}>
                 Send Like
               </S.SendButton>
               <S.CancelButton type="button" onClick={handleClose}>
