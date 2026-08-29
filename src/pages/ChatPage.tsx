@@ -1,5 +1,7 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { LikeIntro } from "../components/LikeIntro";
 import { profiles } from "../context/profiles";
+import type { ChatLocationState } from "./chat.types";
 import * as S from "./ChatPage.styles";
 
 const BackIcon = () => {
@@ -19,8 +21,10 @@ const BackIcon = () => {
 
 export const ChatPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { profileId } = useParams();
   const profile = profiles.find((entry) => entry.id === profileId);
+  const chatState = location.state as ChatLocationState | null;
 
   if (!profile) {
     return <Navigate to="/messages" replace />;
@@ -38,7 +42,11 @@ export const ChatPage = () => {
         </S.BackButton>
         <S.Name>{profile.name}</S.Name>
       </S.Header>
-      <S.Body />
+      <S.Body>
+        {chatState ? (
+          <LikeIntro block={chatState.likedBlock} comment={chatState.comment} />
+        ) : null}
+      </S.Body>
     </S.Page>
   );
 };

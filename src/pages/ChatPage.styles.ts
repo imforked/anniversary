@@ -48,4 +48,6 @@ export const Name = styled.h1`
 export const Body = styled.div`
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: none;
 `;

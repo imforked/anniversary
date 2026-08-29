@@ -72,7 +72,7 @@ export const SendLike = ({
       window.clearTimeout(backupTimer.current);
     }
 
-    onSend();
+    onSend(comment);
   };
 
   const handleClose = () => {

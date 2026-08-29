@@ -70,10 +70,16 @@ export const DiscoverPage = () => {
     scrollRef.current?.scrollTo(0, 0);
   };
 
-  const handleSendLike = () => {
+  const handleSendLike = (comment: string) => {
+    if (likedBlock === null) {
+      return;
+    }
+
     const likedProfileId = profile.id;
     setLikedIndex(null);
-    navigate(`/messages/${likedProfileId}`);
+    navigate(`/messages/${likedProfileId}`, {
+      state: { likedBlock, comment },
+    });
   };
 
   return (
