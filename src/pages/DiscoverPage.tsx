@@ -35,7 +35,7 @@ type DiscoverLocationState = {
 export const DiscoverPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { availableProfiles, likeProfile } = useLikes();
+  const { availableProfiles, likeProfile, passProfile } = useLikes();
   const showLoaderOnMount = useRef(
     Boolean((location.state as DiscoverLocationState | null)?.fromLogin),
   ).current;
@@ -80,11 +80,11 @@ export const DiscoverPage = () => {
   }, [profileCount, profileIndex]);
 
   const handlePass = () => {
-    if (profileCount === 0) {
+    if (!profile) {
       return;
     }
 
-    setProfileIndex((currentIndex) => (currentIndex + 1) % profileCount);
+    passProfile(profile.id);
   };
 
   const handlePassExitComplete = () => {

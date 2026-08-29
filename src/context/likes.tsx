@@ -10,6 +10,7 @@ import type { Profile } from "./profiles.types";
 
 type LikesContextValue = {
   likeProfile: (profileId: string) => void;
+  passProfile: (profileId: string) => void;
   availableProfiles: Profile[];
 };
 
@@ -17,6 +18,7 @@ const LikesContext = createContext<LikesContextValue | null>(null);
 
 export const LikesProvider = ({ children }: { children: ReactNode }) => {
   const [likedProfileIds, setLikedProfileIds] = useState<string[]>([]);
+  const [passedProfileIds, setPassedProfileIds] = useState<string[]>([]);
 
   const likeProfile = (profileId: string) => {
     setLikedProfileIds((current) => {
@@ -28,13 +30,28 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const passProfile = (profileId: string) => {
+    setPassedProfileIds((current) => {
+      if (current.includes(profileId)) {
+        return current;
+      }
+
+      return [...current, profileId];
+    });
+  };
+
   const availableProfiles = useMemo(
-    () => profiles.filter((profile) => !likedProfileIds.includes(profile.id)),
-    [likedProfileIds],
+    () =>
+      profiles.filter(
+        (profile) =>
+          !likedProfileIds.includes(profile.id) &&
+          !passedProfileIds.includes(profile.id),
+      ),
+    [likedProfileIds, passedProfileIds],
   );
 
   const value = useMemo(
-    () => ({ likeProfile, availableProfiles }),
+    () => ({ likeProfile, passProfile, availableProfiles }),
     [availableProfiles],
   );
 
