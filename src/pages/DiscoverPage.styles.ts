@@ -71,3 +71,17 @@ export const PassButton = styled(motion.button)`
     height: 30px;
   }
 `;
+
+export const EmptyState = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+  text-align: center;
+`;
