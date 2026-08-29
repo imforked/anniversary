@@ -1,6 +1,7 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { IncomingMessage } from "../components/IncomingMessage";
 import { LikeIntro } from "../components/LikeIntro";
+import { TypingIndicator } from "../components/TypingIndicator";
 import { useLikes } from "../context/likes";
 import { getProfileById } from "../context/profiles";
 import * as S from "./ChatPage.styles";
@@ -58,6 +59,10 @@ export const ChatPage = () => {
               text={message.text}
             />
           ))}
+          <TypingIndicator
+            photo={profile.photo}
+            isActive={match?.isTyping ?? false}
+          />
         </S.Messages>
       </S.Body>
     </S.Page>

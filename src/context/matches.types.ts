@@ -10,4 +10,5 @@ export type Match = {
   likedBlock: ProfileBlock;
   comment: string;
   messages: ChatMessage[];
+  isTyping: boolean;
 };

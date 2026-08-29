@@ -64,6 +64,7 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
           likedBlock: data.likedBlock,
           comment: data.comment,
           messages: buildInitialMessages(data.comment),
+          isTyping: true,
         },
       ];
     });
