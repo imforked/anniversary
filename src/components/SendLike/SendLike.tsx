@@ -17,6 +17,7 @@ export const SendLike = ({
   const isOpen = useRef(true);
   const formRevealed = useRef(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
   const backupTimer = useRef<number | undefined>(undefined);
 
   const revealForm = () => {
@@ -38,6 +39,14 @@ export const SendLike = ({
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!showForm) {
+      return;
+    }
+
+    commentRef.current?.focus({ preventScroll: true });
+  }, [showForm]);
 
   const handleLayoutAnimationStart = () => {
     const card = cardRef.current;
@@ -122,6 +131,7 @@ export const SendLike = ({
               transition={{ duration: 0.45, ease }}
             >
               <S.CommentField
+                ref={commentRef}
                 value={comment}
                 onChange={(event) => setComment(event.target.value)}
                 placeholder="Add a comment"

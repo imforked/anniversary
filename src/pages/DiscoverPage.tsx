@@ -7,6 +7,9 @@ import { ProfileCard } from "../components/ProfileCard";
 import { ProfileName } from "../components/ProfileName";
 import { SendLike } from "../components/SendLike";
 import { useLikes } from "../context/likes";
+import { useMatchOverlay } from "../context/matchOverlay";
+import { getProfileById } from "../context/profiles";
+import type { ProfileImage } from "../context/profiles.types";
 import * as S from "./DiscoverPage.styles";
 
 const PassIcon = () => {
@@ -32,16 +35,23 @@ type DiscoverLocationState = {
   fromLogin?: boolean;
 };
 
+type PendingMatch = {
+  profileId: string;
+  photo: ProfileImage;
+};
+
 export const DiscoverPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { availableProfiles, likeProfile, passProfile } = useLikes();
+  const { startMatch } = useMatchOverlay();
   const showLoaderOnMount = useRef(
     Boolean((location.state as DiscoverLocationState | null)?.fromLogin),
   ).current;
   const [isLoading, setIsLoading] = useState(showLoaderOnMount);
   const [profileIndex, setProfileIndex] = useState(0);
   const [likedIndex, setLikedIndex] = useState<number | null>(null);
+  const [pendingMatch, setPendingMatch] = useState<PendingMatch | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const profileCount = availableProfiles.length;
@@ -49,6 +59,9 @@ export const DiscoverPage = () => {
     profileCount === 0
       ? null
       : availableProfiles[profileIndex % profileCount];
+  const visibleProfile = pendingMatch
+    ? getProfileById(pendingMatch.profileId)
+    : profile;
   const likedBlock =
     profile && likedIndex !== null ? profile.blocks[likedIndex] : null;
 
@@ -96,22 +109,23 @@ export const DiscoverPage = () => {
       return;
     }
 
-    likeProfile(profile.id, { comment, likedBlock });
+    setPendingMatch({ profileId: profile.id, photo: profile.photo });
     setLikedIndex(null);
-    navigate(`/messages/${profile.id}`, { state: { showMatch: true } });
+    likeProfile(profile.id, { comment, likedBlock });
+    startMatch(profile.id, profile.photo);
   };
 
   return (
     <LayoutGroup>
       <S.Page>
-        {profile ? (
+        {visibleProfile ? (
           <S.NameBar>
-            <ProfileName name={profile.name} />
+            <ProfileName name={visibleProfile.name} />
           </S.NameBar>
         ) : null}
         <S.Main>
           <S.Body>
-            {profile ? (
+            {visibleProfile ? (
               <>
                 <S.Scrollable ref={scrollRef}>
                   <AnimatePresence
@@ -119,7 +133,7 @@ export const DiscoverPage = () => {
                     onExitComplete={handlePassExitComplete}
                   >
                     <motion.div
-                      key={profile.id}
+                      key={visibleProfile.id}
                       initial={{ opacity: 0, x: 24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -24 }}
@@ -129,8 +143,8 @@ export const DiscoverPage = () => {
                       }}
                     >
                       <S.Feed>
-                        {profile.blocks.map((block, index) => {
-                          const blockLayoutId = `${profile.id}-block-${index}`;
+                        {visibleProfile.blocks.map((block, index) => {
+                          const blockLayoutId = `${visibleProfile.id}-block-${index}`;
 
                           return (
                             <S.FeedCard
@@ -152,7 +166,7 @@ export const DiscoverPage = () => {
                   </AnimatePresence>
                 </S.Scrollable>
                 <AnimatePresence>
-                  {likedBlock === null ? (
+                  {likedBlock === null && !pendingMatch ? (
                     <S.PassButton
                       type="button"
                       aria-label="Pass"
