@@ -170,7 +170,7 @@ export const DiscoverPage = () => {
                 </AnimatePresence>
               </>
             ) : (
-              <S.EmptyState>You&apos;re all caught up.</S.EmptyState>
+              <S.EmptyState>That's everyone for now.</S.EmptyState>
             )}
           </S.Body>
           <Dashboard />
