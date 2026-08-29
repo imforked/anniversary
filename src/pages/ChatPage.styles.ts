@@ -15,7 +15,6 @@ export const Header = styled.header`
   flex-shrink: 0;
   padding: 12px 16px;
   background-color: #ffffff;
-  border-bottom: 1px solid var(--color-border);
 `;
 
 export const BackButton = styled.button`

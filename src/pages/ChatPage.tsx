@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { ChatProfileView } from "../components/ChatProfileView";
+import { ChatTabSwitcher } from "../components/ChatTabSwitcher";
 import { IncomingMessage } from "../components/IncomingMessage";
 import { LikeIntro } from "../components/LikeIntro";
 import { TypingIndicator } from "../components/TypingIndicator";
 import { useLikes } from "../context/likes";
 import { getProfileById } from "../context/profiles";
 import * as S from "./ChatPage.styles";
+
+type ChatTab = "chat" | "profile";
 
 const BackIcon = () => {
   return (
@@ -25,6 +30,7 @@ export const ChatPage = () => {
   const navigate = useNavigate();
   const { profileId } = useParams();
   const { getMatch } = useLikes();
+  const [activeTab, setActiveTab] = useState<ChatTab>("chat");
   const profile = profileId ? getProfileById(profileId) : undefined;
   const match = profileId ? getMatch(profileId) : undefined;
 
@@ -47,24 +53,32 @@ export const ChatPage = () => {
         </S.BackButton>
         <S.Name>{profile.name}</S.Name>
       </S.Header>
-      <S.Body>
-        {match ? (
-          <LikeIntro block={match.likedBlock} comment={match.comment} />
-        ) : null}
-        <S.Messages>
-          {incomingMessages.map((message, index) => (
-            <IncomingMessage
-              key={`${message.text}-${index}`}
+      <ChatTabSwitcher
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      {activeTab === "chat" ? (
+        <S.Body>
+          {match ? (
+            <LikeIntro block={match.likedBlock} comment={match.comment} />
+          ) : null}
+          <S.Messages>
+            {incomingMessages.map((message, index) => (
+              <IncomingMessage
+                key={`${message.text}-${index}`}
+                photo={profile.photo}
+                text={message.text}
+              />
+            ))}
+            <TypingIndicator
               photo={profile.photo}
-              text={message.text}
+              isActive={match?.isTyping ?? false}
             />
-          ))}
-          <TypingIndicator
-            photo={profile.photo}
-            isActive={match?.isTyping ?? false}
-          />
-        </S.Messages>
-      </S.Body>
+          </S.Messages>
+        </S.Body>
+      ) : (
+        <ChatProfileView profile={profile} />
+      )}
     </S.Page>
   );
 };

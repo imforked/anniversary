@@ -7,18 +7,24 @@ export const Root = styled.div`
 `;
 
 export const PromptCard = styled.div`
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 80%;
+`;
+
+export const PromptSurface = styled.div`
+  align-self: stretch;
   border-radius: 12px;
   background-color: #f2f2f2;
-  overflow: visible;
+  overflow: hidden;
 `;
 
 export const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 28px 24px 48px;
+  padding: 28px 24px 24px;
   text-align: left;
 `;
 
@@ -45,15 +51,11 @@ export const Photo = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 12px;
 `;
 
 export const CommentBubble = styled.p`
-  position: absolute;
-  right: 16px;
-  bottom: -12px;
   max-width: min(240px, 90%);
-  margin: 0;
+  margin: -12px 16px 0 0;
   padding: 12px 16px;
   border-radius: 16px 16px 4px 16px;
   font-family: var(--font-sans);
