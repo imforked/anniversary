@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AudioPrompt } from "../AudioPrompt";
 import * as S from "./ProfileCard.styles";
 import type { ProfileCardProps } from "./ProfileCard.types";
 
@@ -25,7 +26,8 @@ export const ProfileCard = ({
   const textRef = useRef<HTMLDivElement>(null);
   const [isTextOverflowing, setIsTextOverflowing] = useState(false);
   const constrainText = block.type === "text" && constrainTextToSquare;
-  const isSquare = block.type === "image" || constrainText;
+  const isSquare =
+    block.type === "image" || constrainText;
 
   useEffect(() => {
     if (!constrainText) {
@@ -57,6 +59,8 @@ export const ProfileCard = ({
     <S.Card $square={isSquare}>
       {block.type === "image" ? (
         <S.Photo src={block.src} alt={block.alt} />
+      ) : block.type === "audio" ? (
+        <AudioPrompt prompt={block.prompt} src={block.src} />
       ) : (
         <>
           <S.TextContent ref={textRef} $constrained={constrainText}>

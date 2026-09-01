@@ -1,3 +1,4 @@
+import { AudioPrompt } from "../AudioPrompt";
 import * as S from "./LikeIntro.styles";
 import type { LikeIntroProps } from "./LikeIntro.types";
 
@@ -10,6 +11,8 @@ export const LikeIntro = ({ block, comment }: LikeIntroProps) => {
         <S.PromptSurface>
           {block.type === "image" ? (
             <S.Photo src={block.src} alt={block.alt} />
+          ) : block.type === "audio" ? (
+            <AudioPrompt prompt={block.prompt} src={block.src} compact />
           ) : (
             <S.TextContent>
               <S.Prompt>{block.prompt}</S.Prompt>

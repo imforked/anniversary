@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const Root = styled.div`
   display: flex;
   justify-content: flex-end;
+  min-width: 0;
   padding: 24px 24px 32px;
 `;
 
@@ -11,10 +12,14 @@ export const PromptCard = styled.div`
   flex-direction: column;
   align-items: flex-end;
   width: 80%;
+  min-width: 0;
+  max-width: 100%;
 `;
 
 export const PromptSurface = styled.div`
   align-self: stretch;
+  width: 100%;
+  min-width: 0;
   border-radius: 12px;
   background-color: #f2f2f2;
   overflow: hidden;

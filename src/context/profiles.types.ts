@@ -13,7 +13,13 @@ export type TextBlock = {
   answer: string;
 };
 
-export type ProfileBlock = ImageBlock | TextBlock;
+export type AudioBlock = {
+  type: "audio";
+  prompt: string;
+  src: string;
+};
+
+export type ProfileBlock = ImageBlock | TextBlock | AudioBlock;
 
 export type Profile = {
   id: string;

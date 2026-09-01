@@ -21,6 +21,11 @@ export const profiles: Profile[] = [
           "metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...",
       },
       {
+        type: "audio",
+        prompt: "Do you agree or disagree that",
+        src: "/parrot-sound.mp3",
+      },
+      {
         type: "image",
         src: "/melissa-placeholder.svg",
         alt: "Melissa",
