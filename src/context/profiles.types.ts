@@ -22,7 +22,7 @@ export type AudioBlock = {
 
 export type VideoBlock = {
   type: "video";
-  prompt: string;
+  prompt?: string;
   src: string;
 };
 

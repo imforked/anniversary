@@ -1,5 +1,5 @@
 export type VideoPromptProps = {
-  prompt: string;
+  prompt?: string;
   src: string;
   compact?: boolean;
 };

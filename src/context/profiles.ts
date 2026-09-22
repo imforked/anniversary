@@ -2,6 +2,61 @@ import type { Profile } from "./profiles.types";
 
 export const profiles: Profile[] = [
   {
+    id: "kari-walks",
+    name: "Kari Walks",
+    photo: {
+      src: "/profiles/kari-walks/pfp.png",
+      alt: "Kari Flowers",
+    },
+    blocks: [
+      {
+        type: "image",
+        src: "/profiles/kari-walks/pfp.jpg",
+        alt: "Kari Walks",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/curious-dom.jpg",
+        alt: "Dom looking at a cool plant.",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/lil-guy.jpg",
+        alt: "Kari's lil guy",
+      },
+      {
+        type: "text",
+        prompt: "Green flags I look for",
+        answer: "Learning from my fav girl.",
+      },
+      {
+        type: "video",
+        src: "/profiles/kari-walks/swingin.mp4",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/hehehe.jpg",
+        alt: "After some good segs.",
+        prompt: "My most spontaneous moment",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/choochs-waterfall.jpg",
+        alt: "Chooch's waterfall",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/magic.jpg",
+        alt: "We found magic.",
+      },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/sweet-treat.jpg",
+        alt: "Mid-walk sweet treat.",
+      },
+    ],
+  },
+  {
     id: "our-good-times",
     name: "Our Good Times",
     photo: {
