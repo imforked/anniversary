@@ -57,6 +57,71 @@ export const profiles: Profile[] = [
     ],
   },
   {
+    id: "goat",
+    name: "Goat",
+    photo: {
+      src: "/melissa-placeholder.svg",
+      alt: "Goat",
+    },
+    blocks: [
+      {
+        type: "image",
+        src: "/profiles/goat/pfp.png",
+        alt: "Goat",
+      },
+      {
+        type: "text",
+        prompt: "I go crazy for",
+        answer: "Kari's garden",
+      },
+      {
+        type: "audio",
+        prompt: "My hot take",
+        src: "/profiles/goat/goat-screaming.m4a",
+      },
+      {
+        type: "text",
+        prompt: "I'm convinced that",
+        answer: "you're the goat, the loml",
+      },
+    ],
+  },
+  {
+    id: "parrot",
+    name: "Parrot",
+    photo: {
+      src: "/profiles/parrot/pfp.png",
+      alt: "Parrot",
+    },
+    blocks: [
+      {
+        type: "image",
+        src: "/profiles/parrot/pfp.png",
+        alt: "Parrot",
+      },
+      {
+        type: "text",
+        prompt: "I won't shut up about",
+        answer: "Metal... Paper...",
+      },
+      {
+        type: "audio",
+        prompt: "I'm convinced that",
+        src: "/profiles/parrot/parrot-ily.m4a",
+      },
+      {
+        type: "text",
+        prompt: "What if I told you",
+        answer: "You're so cute.",
+      },
+      {
+        type: "text",
+        prompt: "Together we could",
+        answer: "Have good conversations and learn tricks.",
+      },
+    ],
+  },
+  {
     id: "our-good-times",
     name: "Our Good Times",
     photo: {
@@ -127,71 +192,6 @@ export const profiles: Profile[] = [
         src: "/profiles/good-times/the-goat.jpg",
         alt: "Kari is the goat.",
         prompt: "Green flags I look for",
-      },
-    ],
-  },
-  {
-    id: "goat",
-    name: "Goat",
-    photo: {
-      src: "/melissa-placeholder.svg",
-      alt: "Goat",
-    },
-    blocks: [
-      {
-        type: "image",
-        src: "/profiles/goat/pfp.png",
-        alt: "Goat",
-      },
-      {
-        type: "text",
-        prompt: "I go crazy for",
-        answer: "Kari's garden",
-      },
-      {
-        type: "audio",
-        prompt: "My hot take",
-        src: "/profiles/goat/goat-screaming.m4a",
-      },
-      {
-        type: "text",
-        prompt: "I'm convinced that",
-        answer: "you're the goat, the loml",
-      },
-    ],
-  },
-  {
-    id: "parrot",
-    name: "Parrot",
-    photo: {
-      src: "/profiles/parrot/pfp.png",
-      alt: "Parrot",
-    },
-    blocks: [
-      {
-        type: "image",
-        src: "/profiles/parrot/pfp.png",
-        alt: "Parrot",
-      },
-      {
-        type: "text",
-        prompt: "I won't shut up about",
-        answer: "Metal... Paper...",
-      },
-      {
-        type: "audio",
-        prompt: "I'm convinced that",
-        src: "/profiles/parrot/parrot-ily.m4a",
-      },
-      {
-        type: "text",
-        prompt: "What if I told you",
-        answer: "You're so cute.",
-      },
-      {
-        type: "text",
-        prompt: "Together we could",
-        answer: "Have good conversations and learn tricks.",
       },
     ],
   },
