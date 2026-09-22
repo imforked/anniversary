@@ -2,53 +2,141 @@ import type { Profile } from "./profiles.types";
 
 export const profiles: Profile[] = [
   {
-    id: "melissa",
-    name: "Melissa",
+    id: "our-good-times",
+    name: "Our Good Times",
     photo: {
-      src: "/melissa-placeholder.svg",
-      alt: "Melissa",
+      src: "/profiles/good-times/pfp.jpg",
+      alt: "Our Good Times",
     },
     blocks: [
       {
         type: "image",
-        src: "/melissa-placeholder.svg",
-        alt: "Melissa",
+        src: "/profiles/good-times/pfp.jpg",
+        alt: "Our Good Times",
       },
       {
-        type: "text",
-        prompt: "I'm weirdly attracted to",
-        answer:
-          "metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...metal... person...",
-      },
-      {
-        type: "audio",
-        prompt: "Do you agree or disagree that",
-        src: "/parrot-sound.mp3",
+        type: "video",
+        prompt: "My love language is",
+        src: "/profiles/good-times/cigars.mp4",
       },
       {
         type: "image",
-        src: "/melissa-placeholder.svg",
-        alt: "Melissa",
+        src: "/profiles/good-times/berries.jpg",
+        alt: "Kari picking berries.",
+      },
+      {
+        type: "text",
+        prompt: "My simple pleasures",
+        answer: "Cuddling & holding hands with you.",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/beautiful-breakfast.jpg",
+        alt: "A beautiful breakfast made by Kari.",
+        prompt: "The key to my heart is",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/wiener.jpg",
+        alt: "Dom eating a wiener.",
+      },
+      {
+        type: "video",
+        prompt: "My love language is",
+        src: "/profiles/good-times/shoot-gun.mp4",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/bday-tea.jpg",
+        alt: "Dom's bday tea ceremony.",
+        prompt: "My happy place",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/bleach.jpg",
+        alt: "Kari bleaching.",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/kari-cabin-smoking.jpg",
+        alt: "Kari smoking in our weekend getaway.",
+        prompt: "I go crazy for",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/clam-spread.jpg",
+        alt: "Kari showing clam.",
+      },
+      {
+        type: "image",
+        src: "/profiles/good-times/the-goat.jpg",
+        alt: "Kari is the goat.",
+        prompt: "Green flags I look for",
       },
     ],
   },
   {
-    id: "alex",
-    name: "Alex",
+    id: "goat",
+    name: "Goat",
     photo: {
       src: "/melissa-placeholder.svg",
-      alt: "Alex",
+      alt: "Goat",
     },
     blocks: [
       {
         type: "image",
-        src: "/melissa-placeholder.svg",
-        alt: "Alex",
+        src: "/profiles/goat/pfp.png",
+        alt: "Goat",
       },
       {
         type: "text",
-        prompt: "My simple pleasure",
-        answer: "Morning coffee on the porch.",
+        prompt: "I go crazy for",
+        answer: "Kari's garden",
+      },
+      {
+        type: "audio",
+        prompt: "My hot take",
+        src: "/profiles/goat/goat-screaming.m4a",
+      },
+      {
+        type: "text",
+        prompt: "I'm convinced that",
+        answer: "you're the goat, the loml",
+      },
+    ],
+  },
+  {
+    id: "parrot",
+    name: "Parrot",
+    photo: {
+      src: "/profiles/parrot/pfp.png",
+      alt: "Parrot",
+    },
+    blocks: [
+      {
+        type: "image",
+        src: "/profiles/parrot/pfp.png",
+        alt: "Parrot",
+      },
+      {
+        type: "text",
+        prompt: "I won't shut up about",
+        answer: "Metal... Paper...",
+      },
+      {
+        type: "audio",
+        prompt: "I'm convinced that",
+        src: "/profiles/parrot/parrot-ily.m4a",
+      },
+      {
+        type: "text",
+        prompt: "What if I told you",
+        answer: "You're so cute.",
+      },
+      {
+        type: "text",
+        prompt: "Together we could",
+        answer: "Have good conversations and learn tricks.",
       },
     ],
   },

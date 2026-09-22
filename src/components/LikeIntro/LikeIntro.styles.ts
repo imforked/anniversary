@@ -54,7 +54,7 @@ export const Answer = styled.p`
 export const Photo = styled.img`
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
 `;
 

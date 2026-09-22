@@ -5,6 +5,7 @@ export type ProfileImage = {
 
 export type ImageBlock = ProfileImage & {
   type: "image";
+  prompt?: string;
 };
 
 export type TextBlock = {
@@ -19,7 +20,13 @@ export type AudioBlock = {
   src: string;
 };
 
-export type ProfileBlock = ImageBlock | TextBlock | AudioBlock;
+export type VideoBlock = {
+  type: "video";
+  prompt: string;
+  src: string;
+};
+
+export type ProfileBlock = ImageBlock | TextBlock | AudioBlock | VideoBlock;
 
 export type Profile = {
   id: string;
