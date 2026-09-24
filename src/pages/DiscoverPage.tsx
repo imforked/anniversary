@@ -56,9 +56,7 @@ export const DiscoverPage = () => {
 
   const profileCount = availableProfiles.length;
   const profile =
-    profileCount === 0
-      ? null
-      : availableProfiles[profileIndex % profileCount];
+    profileCount === 0 ? null : availableProfiles[profileIndex % profileCount];
   const visibleProfile = pendingMatch
     ? getProfileById(pendingMatch.profileId)
     : profile;
@@ -183,7 +181,9 @@ export const DiscoverPage = () => {
                 </AnimatePresence>
               </>
             ) : (
-              <S.EmptyState>That's everyone for now.</S.EmptyState>
+              <S.EmptyState>
+                Loading... More memories to come soon :)
+              </S.EmptyState>
             )}
           </S.Body>
           <Dashboard />
