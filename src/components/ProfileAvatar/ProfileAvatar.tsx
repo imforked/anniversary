@@ -1,4 +1,5 @@
 import type { ProfileImage } from "../../context/profiles.types";
+import { useCachedSrc } from "../../utils/useCachedSrc";
 import * as S from "./ProfileAvatar.styles";
 
 type ProfileAvatarProps = {
@@ -7,5 +8,7 @@ type ProfileAvatarProps = {
 };
 
 export const ProfileAvatar = ({ photo, size = 32 }: ProfileAvatarProps) => {
-  return <S.Image src={photo.src} alt={photo.alt} $size={size} />;
+  const src = useCachedSrc(photo.src);
+
+  return <S.Image src={src} alt={photo.alt} $size={size} />;
 };

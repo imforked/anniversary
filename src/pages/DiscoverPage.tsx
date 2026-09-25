@@ -10,6 +10,10 @@ import { useLikes } from "../context/likes";
 import { useMatchOverlay } from "../context/matchOverlay";
 import { getProfileById } from "../context/profiles";
 import type { ProfileImage } from "../context/profiles.types";
+import {
+  preloadProfileAssets,
+  waitForProfileAssets,
+} from "../utils/preloadProfileAssets";
 import * as S from "./DiscoverPage.styles";
 
 const PassIcon = () => {
@@ -66,18 +70,28 @@ export const DiscoverPage = () => {
       : null;
 
   useEffect(() => {
-    if (!showLoaderOnMount) {
-      return;
+    let cancelled = false;
+
+    if (showLoaderOnMount) {
+      navigate(".", { replace: true, state: null });
     }
 
-    navigate(".", { replace: true, state: null });
+    const finishLoading = async () => {
+      await waitForProfileAssets(showLoaderOnMount ? 1200 : 0);
 
-    const timeoutId = window.setTimeout(() => {
-      setIsLoading(false);
-    }, 1200);
+      if (!cancelled) {
+        setIsLoading(false);
+      }
+    };
+
+    if (showLoaderOnMount) {
+      void finishLoading();
+    } else {
+      void preloadProfileAssets();
+    }
 
     return () => {
-      window.clearTimeout(timeoutId);
+      cancelled = true;
     };
   }, [navigate, showLoaderOnMount]);
 

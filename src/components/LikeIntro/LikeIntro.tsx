@@ -1,3 +1,4 @@
+import { useCachedSrc } from "../../utils/useCachedSrc";
 import { AudioPrompt } from "../AudioPrompt";
 import { MediaFrame } from "../MediaFrame";
 import { VideoPrompt } from "../VideoPrompt";
@@ -6,6 +7,7 @@ import type { LikeIntroProps } from "./LikeIntro.types";
 
 export const LikeIntro = ({ block, comment }: LikeIntroProps) => {
   const trimmedComment = comment.trim();
+  const imageSrc = useCachedSrc(block.type === "image" ? block.src : "");
 
   return (
     <S.Root>
@@ -13,7 +15,7 @@ export const LikeIntro = ({ block, comment }: LikeIntroProps) => {
         <S.PromptSurface>
           {block.type === "image" ? (
             <MediaFrame prompt={block.prompt} compact>
-              <S.Photo src={block.src} alt={block.alt} />
+              <S.Photo src={imageSrc} alt={block.alt} />
             </MediaFrame>
           ) : block.type === "audio" ? (
             <AudioPrompt prompt={block.prompt} src={block.src} compact />

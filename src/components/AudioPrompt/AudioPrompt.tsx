@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./AudioPrompt.styles";
 import type { AudioPromptProps } from "./AudioPrompt.types";
+import { useCachedSrc } from "../../utils/useCachedSrc";
 import { BAR_COUNT, extractWaveformPeaks, toBarHeights } from "./waveform";
 
 const PlayIcon = () => {
@@ -26,6 +27,7 @@ const loadingBarHeights = Array.from({ length: BAR_COUNT }, (_, index) => {
 });
 
 export const AudioPrompt = ({ prompt, src, compact = false }: AudioPromptProps) => {
+  const playbackSrc = useCachedSrc(src);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -136,7 +138,7 @@ export const AudioPrompt = ({ prompt, src, compact = false }: AudioPromptProps) 
           ))}
         </S.Waveform>
       </S.Player>
-      <audio ref={audioRef} src={src} preload="metadata" hidden />
+      <audio ref={audioRef} src={playbackSrc} preload="auto" hidden />
     </S.Root>
   );
 };

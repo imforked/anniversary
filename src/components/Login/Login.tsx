@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundVideo from "./assets/background.mp4";
 import { Button } from "../Button";
 import { CreateAccountForm } from "../CreateAccountForm";
 import { SignInForm } from "../SignInForm";
+import { preloadProfileAssets } from "../../utils/preloadProfileAssets";
 import * as S from "./Login.styles";
 
 const handleVideoLoaded = (
@@ -17,6 +18,10 @@ export const Login = () => {
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+
+  useEffect(() => {
+    void preloadProfileAssets();
+  }, []);
 
   const handleSuccess = () => {
     setIsLeaving(true);

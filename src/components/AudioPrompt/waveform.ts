@@ -1,3 +1,5 @@
+import { getCachedAssetUrl } from "../../utils/assetCache";
+
 export const BAR_COUNT = 48;
 export const MAX_BAR_HEIGHT = 56;
 const MIN_BAR_SCALE = 0.14;
@@ -12,7 +14,7 @@ export const extractWaveformPeaks = async (
   src: string,
   barCount = BAR_COUNT,
 ) => {
-  const response = await fetch(src);
+  const response = await fetch(getCachedAssetUrl(src));
 
   if (!response.ok) {
     throw new Error(`Failed to load audio: ${response.status}`);
