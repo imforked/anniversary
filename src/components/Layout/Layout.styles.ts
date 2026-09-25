@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   flex: 1;
   width: 100%;
-  max-width: 700px;
+  max-width: 410px;
   min-height: 0;
   overflow: hidden;
 `;
