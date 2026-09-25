@@ -288,6 +288,91 @@ export const profiles: Profile[] = [
       },
     ],
   },
+  {
+    id: "us",
+    name: "Us",
+    photo: {
+      src: "/profiles/us/pfp.jpg",
+      alt: "Smart baby",
+    },
+    blocks: [
+      {
+        type: "image",
+        src: "/profiles/us/pfp.jpg",
+        alt: "Drowing in it.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/hard-launch-babes.jpg",
+        alt: "Hard launch babes.",
+      },
+      {
+        type: "text",
+        prompt: "Green flags I look for",
+        answer: "Sweet, well-adjusted, weird ladies.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/continental-breakfast-babes.jpg",
+        alt: "Breakfast babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/creative-babes.jpg",
+        alt: "Creative babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/cuuuuute.jpg",
+        alt: "Cuuuuute.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/first-job-queen.jpg",
+        alt: "First job queen.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/hike-cuties.JPG",
+        alt: "Hike cuties.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/hospital-babes.jpg",
+        alt: "Hospital babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/hot-tub-babes.jpg",
+        alt: "Hot tub babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/huh.jpg",
+        alt: "Huh.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/japanese-gardens-babes.jpg",
+        alt: "Japanese gardens babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/magic-babes.jpg",
+        alt: "Magic babes.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/park-cuties.jpg",
+        alt: "Park cuties.",
+      },
+      {
+        type: "image",
+        src: "/profiles/us/rock-hard-babes.jpg",
+        alt: "Rock hard babes.",
+      },
+    ],
+  },
 ];
 
 export const getProfileById = (profileId: string) => {
