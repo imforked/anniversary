@@ -101,6 +101,11 @@ export const profiles: Profile[] = [
       },
       {
         type: "image",
+        src: "/profiles/the-ladies/girrrrl.jpg",
+        alt: "vibin",
+      },
+      {
+        type: "image",
         src: "/profiles/the-ladies/drowing-in-it.jpg",
         alt: "Drowing in it.",
       },
