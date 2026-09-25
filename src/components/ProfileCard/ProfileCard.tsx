@@ -73,7 +73,7 @@ export const ProfileCard = ({
         <>
           <S.TextContent ref={textRef} $constrained={constrainText}>
             <S.Prompt>{block.prompt}</S.Prompt>
-            <S.Answer>{block.answer}</S.Answer>
+            <S.Answer $avoidLike={showLikeButton}>{block.answer}</S.Answer>
           </S.TextContent>
           {constrainText && isTextOverflowing ? <S.TextFade /> : null}
         </>

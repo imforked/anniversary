@@ -46,13 +46,22 @@ export const Prompt = styled.p`
   color: var(--color-text);
 `;
 
-export const Answer = styled.p`
+export const Answer = styled.p<{ $avoidLike?: boolean }>`
   margin: 0;
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: 700;
   line-height: 1.25;
   color: var(--color-text);
+  box-sizing: border-box;
+  max-width: 100%;
+
+  ${(props) =>
+    props.$avoidLike
+      ? `
+    padding-right: 48px;
+  `
+      : ""}
 `;
 
 export const TextFade = styled.div`
