@@ -9,7 +9,8 @@ import { SendLike } from "../components/SendLike";
 import { useLikes } from "../context/likes";
 import { useMatchOverlay } from "../context/matchOverlay";
 import { getProfileById } from "../context/profiles";
-import type { ProfileImage } from "../context/profiles.types";
+import type { Profile, ProfileImage } from "../context/profiles.types";
+import { getCachedAssetUrl } from "../utils/assetCache";
 import {
   preloadProfileAssets,
   prioritizeProfileAssets,
@@ -50,6 +51,65 @@ type PendingMatch = {
   photo: ProfileImage;
 };
 
+const warmImage = (src: string) => {
+  const image = new Image();
+  image.src = getCachedAssetUrl(src);
+
+  return image.decode?.().catch(() => undefined);
+};
+
+const warmProfileImages = (person: Profile) => {
+  warmImage(person.photo.src);
+
+  for (const block of person.blocks) {
+    if (block.type === "image") {
+      warmImage(block.src);
+    }
+  }
+};
+
+const renderFeed = (
+  person: Profile,
+  options: {
+    interactive: boolean;
+    likedIndex: number | null;
+    onLike?: (index: number) => void;
+  },
+) => {
+  return (
+    <S.Feed>
+      {person.blocks.map((block, index) => {
+        const blockLayoutId = `${person.id}-block-${index}`;
+        const isSelected = options.interactive && options.likedIndex === index;
+
+        return (
+          <S.FeedCard
+            key={blockLayoutId}
+            layoutId={isSelected ? blockLayoutId : undefined}
+            transition={layoutTransition}
+            style={
+              options.interactive && options.likedIndex !== null && !isSelected
+                ? { visibility: "hidden" }
+                : undefined
+            }
+          >
+            <ProfileCard
+              block={block}
+              showLikeButton={options.interactive && !isSelected}
+              mediaActive={options.interactive}
+              onLike={
+                options.interactive && options.onLike
+                  ? () => options.onLike?.(index)
+                  : undefined
+              }
+            />
+          </S.FeedCard>
+        );
+      })}
+    </S.Feed>
+  );
+};
+
 export const DiscoverPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,6 +133,10 @@ export const DiscoverPage = () => {
   const likedBlock =
     visibleProfile && likedIndex !== null
       ? visibleProfile.blocks[likedIndex]
+      : null;
+  const nextProfile =
+    profile && profileCount >= 2 && !pendingMatch
+      ? availableProfiles[(profileIndex + 1) % profileCount]
       : null;
 
   useEffect(() => {
@@ -112,10 +176,11 @@ export const DiscoverPage = () => {
       return;
     }
 
-    const nextProfile = availableProfiles[(profileIndex + 1) % profileCount];
+    const upcoming = availableProfiles[(profileIndex + 1) % profileCount];
 
-    if (nextProfile && nextProfile.id !== visibleProfile.id) {
-      prioritizeProfileAssets(nextProfile.id);
+    if (upcoming && upcoming.id !== visibleProfile.id) {
+      prioritizeProfileAssets(upcoming.id);
+      warmProfileImages(upcoming);
     }
   }, [
     availableProfiles,
@@ -170,6 +235,14 @@ export const DiscoverPage = () => {
           <S.Body>
             {visibleProfile ? (
               <>
+                {nextProfile ? (
+                  <S.WarmupPane aria-hidden="true">
+                    {renderFeed(nextProfile, {
+                      interactive: false,
+                      likedIndex: null,
+                    })}
+                  </S.WarmupPane>
+                ) : null}
                 <S.Scrollable ref={scrollRef}>
                   <AnimatePresence
                     mode="wait"
@@ -182,31 +255,11 @@ export const DiscoverPage = () => {
                       exit={{ opacity: 0, x: -24 }}
                       transition={passTransition}
                     >
-                      <S.Feed>
-                        {visibleProfile.blocks.map((block, index) => {
-                          const blockLayoutId = `${visibleProfile.id}-block-${index}`;
-                          const isSelected = likedIndex === index;
-
-                          return (
-                            <S.FeedCard
-                              key={blockLayoutId}
-                              layoutId={isSelected ? blockLayoutId : undefined}
-                              transition={layoutTransition}
-                              style={
-                                likedIndex !== null && !isSelected
-                                  ? { visibility: "hidden" }
-                                  : undefined
-                              }
-                            >
-                              <ProfileCard
-                                block={block}
-                                showLikeButton={!isSelected}
-                                onLike={() => setLikedIndex(index)}
-                              />
-                            </S.FeedCard>
-                          );
-                        })}
-                      </S.Feed>
+                      {renderFeed(visibleProfile, {
+                        interactive: true,
+                        likedIndex,
+                        onLike: setLikedIndex,
+                      })}
                     </motion.div>
                   </AnimatePresence>
                 </S.Scrollable>

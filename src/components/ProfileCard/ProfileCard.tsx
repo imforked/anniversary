@@ -64,7 +64,7 @@ export const ProfileCard = ({
     <S.Card $square={isSquare}>
       {block.type === "image" ? (
         <MediaFrame prompt={block.prompt}>
-          <S.Photo src={imageSrc} alt={block.alt} />
+          <S.Photo src={imageSrc} alt={block.alt} loading="eager" decoding="async" />
         </MediaFrame>
       ) : block.type === "audio" ? (
         <AudioPrompt
