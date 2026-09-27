@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundVideo from "./assets/background.mp4";
 import { Button } from "../Button";
@@ -7,10 +7,9 @@ import { SignInForm } from "../SignInForm";
 import { preloadProfileAssets } from "../../utils/preloadProfileAssets";
 import * as S from "./Login.styles";
 
-const handleVideoLoaded = (
-  event: React.SyntheticEvent<HTMLVideoElement>,
-) => {
+const handleVideoCanPlay = (event: React.SyntheticEvent<HTMLVideoElement>) => {
   event.currentTarget.playbackRate = 0.65;
+  void preloadProfileAssets();
 };
 
 export const Login = () => {
@@ -19,17 +18,11 @@ export const Login = () => {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
-  useEffect(() => {
-    void preloadProfileAssets();
-  }, []);
-
   const handleSuccess = () => {
     setIsLeaving(true);
   };
 
-  const handleFadeOutEnd = (
-    event: React.TransitionEvent<HTMLDivElement>,
-  ) => {
+  const handleFadeOutEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget) {
       return;
     }
@@ -49,7 +42,8 @@ export const Login = () => {
         muted
         loop
         playsInline
-        onLoadedData={handleVideoLoaded}
+        preload="auto"
+        onCanPlay={handleVideoCanPlay}
       />
       <S.Scrim />
       <S.Top>
@@ -57,10 +51,7 @@ export const Login = () => {
         <S.Headline>Designed to be deleted.</S.Headline>
       </S.Top>
       <S.Actions>
-        <Button
-          variant="primary"
-          onClick={() => setIsCreateAccountOpen(true)}
-        >
+        <Button variant="primary" onClick={() => setIsCreateAccountOpen(true)}>
           Create account
         </Button>
         <Button variant="transparent" onClick={() => setIsSignInOpen(true)}>
@@ -79,10 +70,7 @@ export const Login = () => {
         onSuccess={handleSuccess}
       />
 
-      <S.FadeCover
-        $isVisible={isLeaving}
-        onTransitionEnd={handleFadeOutEnd}
-      />
+      <S.FadeCover $isVisible={isLeaving} onTransitionEnd={handleFadeOutEnd} />
     </S.Container>
   );
 };
