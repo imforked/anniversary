@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, LayoutGroup } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dashboard } from "../components/Dashboard";
 import { Loader } from "../components/Loader";
@@ -9,7 +9,7 @@ import { SendLike } from "../components/SendLike";
 import { useLikes } from "../context/likes";
 import { useMatchOverlay } from "../context/matchOverlay";
 import { getProfileById } from "../context/profiles";
-import type { Profile, ProfileImage } from "../context/profiles.types";
+import type { ProfileImage } from "../context/profiles.types";
 import {
   preloadProfileAssets,
   prioritizeProfileAssets,
@@ -36,6 +36,11 @@ const layoutTransition = {
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
+const passTransition = {
+  duration: 0.16,
+  ease: [0.32, 0.72, 0, 1] as const,
+};
+
 type DiscoverLocationState = {
   fromLogin?: boolean;
 };
@@ -57,9 +62,6 @@ export const DiscoverPage = () => {
   const [profileIndex, setProfileIndex] = useState(0);
   const [likedIndex, setLikedIndex] = useState<number | null>(null);
   const [pendingMatch, setPendingMatch] = useState<PendingMatch | null>(null);
-  const [isPassing, setIsPassing] = useState(false);
-  const isPassingRef = useRef(false);
-  const currentLayerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const profileCount = availableProfiles.length;
@@ -71,10 +73,6 @@ export const DiscoverPage = () => {
   const likedBlock =
     visibleProfile && likedIndex !== null
       ? visibleProfile.blocks[likedIndex]
-      : null;
-  const nextProfile =
-    profile && profileCount >= 2 && !pendingMatch
-      ? availableProfiles[(profileIndex + 1) % profileCount]
       : null;
 
   useEffect(() => {
@@ -139,96 +137,15 @@ export const DiscoverPage = () => {
   }, [profileCount, profileIndex]);
 
   const handlePass = () => {
-    if (
-      !profile ||
-      isPassingRef.current ||
-      likedBlock !== null ||
-      pendingMatch
-    ) {
+    if (!profile) {
       return;
     }
 
-    const passedId = profile.id;
-    const layer = currentLayerRef.current;
-
-    isPassingRef.current = true;
-    setIsPassing(true);
-
-    if (!layer) {
-      passProfile(passedId);
-      isPassingRef.current = false;
-      setIsPassing(false);
-      return;
-    }
-
-    const animation = layer.animate(
-      [
-        { transform: "translate3d(0, 0, 0)" },
-        { transform: "translate3d(-112%, 0, 0)" },
-      ],
-      {
-        duration: 420,
-        easing: "cubic-bezier(0.32, 0.72, 0, 1)",
-        fill: "forwards",
-      },
-    );
-
-    animation.onfinish = () => {
-      passProfile(passedId);
-      animation.cancel();
-      isPassingRef.current = false;
-      setIsPassing(false);
-      scrollRef.current?.scrollTo(0, 0);
-    };
+    passProfile(profile.id);
   };
 
-  const renderProfilePane = (
-    person: Profile,
-    options: { interactive: boolean },
-  ) => {
-    return (
-      <>
-        <S.NameBar>
-          <ProfileName name={person.name} />
-        </S.NameBar>
-        <S.Scrollable ref={options.interactive ? scrollRef : undefined}>
-          <S.Feed>
-            {person.blocks.map((block, index) => {
-              const blockLayoutId = `${person.id}-block-${index}`;
-              const isSelected = options.interactive && likedIndex === index;
-
-              return (
-                <S.FeedCard
-                  key={blockLayoutId}
-                  layoutId={
-                    options.interactive && isSelected
-                      ? blockLayoutId
-                      : undefined
-                  }
-                  transition={layoutTransition}
-                  style={
-                    options.interactive && likedIndex !== null && !isSelected
-                      ? { visibility: "hidden" }
-                      : undefined
-                  }
-                >
-                  <ProfileCard
-                    block={block}
-                    showLikeButton={options.interactive && !isSelected}
-                    mediaActive={options.interactive && !isPassing}
-                    onLike={
-                      options.interactive
-                        ? () => setLikedIndex(index)
-                        : undefined
-                    }
-                  />
-                </S.FeedCard>
-              );
-            })}
-          </S.Feed>
-        </S.Scrollable>
-      </>
-    );
+  const handlePassExitComplete = () => {
+    scrollRef.current?.scrollTo(0, 0);
   };
 
   const handleSendLike = (comment: string) => {
@@ -244,36 +161,61 @@ export const DiscoverPage = () => {
   return (
     <LayoutGroup>
       <S.Page>
+        {visibleProfile ? (
+          <S.NameBar>
+            <ProfileName name={visibleProfile.name} />
+          </S.NameBar>
+        ) : null}
         <S.Main>
           <S.Body>
             {visibleProfile ? (
               <>
-                <S.Deck>
-                  {nextProfile ? (
-                    <S.DeckLayer
-                      aria-hidden="true"
-                      style={{ zIndex: 0, pointerEvents: "none" }}
-                    >
-                      {renderProfilePane(nextProfile, { interactive: false })}
-                    </S.DeckLayer>
-                  ) : null}
-                  <S.DeckLayer
-                    ref={currentLayerRef}
-                    style={{
-                      zIndex: 1,
-                      pointerEvents: isPassing ? "none" : "auto",
-                    }}
+                <S.Scrollable ref={scrollRef}>
+                  <AnimatePresence
+                    mode="wait"
+                    onExitComplete={handlePassExitComplete}
                   >
-                    {renderProfilePane(visibleProfile, { interactive: true })}
-                  </S.DeckLayer>
-                </S.Deck>
+                    <motion.div
+                      key={visibleProfile.id}
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -24 }}
+                      transition={passTransition}
+                    >
+                      <S.Feed>
+                        {visibleProfile.blocks.map((block, index) => {
+                          const blockLayoutId = `${visibleProfile.id}-block-${index}`;
+                          const isSelected = likedIndex === index;
+
+                          return (
+                            <S.FeedCard
+                              key={blockLayoutId}
+                              layoutId={isSelected ? blockLayoutId : undefined}
+                              transition={layoutTransition}
+                              style={
+                                likedIndex !== null && !isSelected
+                                  ? { visibility: "hidden" }
+                                  : undefined
+                              }
+                            >
+                              <ProfileCard
+                                block={block}
+                                showLikeButton={!isSelected}
+                                onLike={() => setLikedIndex(index)}
+                              />
+                            </S.FeedCard>
+                          );
+                        })}
+                      </S.Feed>
+                    </motion.div>
+                  </AnimatePresence>
+                </S.Scrollable>
                 <AnimatePresence>
                   {likedBlock === null && !pendingMatch ? (
                     <S.PassButton
                       type="button"
                       aria-label="Pass"
                       onClick={handlePass}
-                      disabled={isPassing}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
