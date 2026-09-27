@@ -12,6 +12,7 @@ import { getProfileById } from "../context/profiles";
 import type { ProfileImage } from "../context/profiles.types";
 import {
   preloadProfileAssets,
+  prioritizeProfileAssets,
   waitForProfileAssets,
 } from "../utils/preloadProfileAssets";
 import * as S from "./DiscoverPage.styles";
@@ -94,6 +95,30 @@ export const DiscoverPage = () => {
       cancelled = true;
     };
   }, [navigate, showLoaderOnMount]);
+
+  useEffect(() => {
+    if (!visibleProfile) {
+      return;
+    }
+
+    prioritizeProfileAssets(visibleProfile.id);
+
+    if (profileCount < 2 || pendingMatch) {
+      return;
+    }
+
+    const nextProfile = availableProfiles[(profileIndex + 1) % profileCount];
+
+    if (nextProfile && nextProfile.id !== visibleProfile.id) {
+      prioritizeProfileAssets(nextProfile.id);
+    }
+  }, [
+    availableProfiles,
+    pendingMatch,
+    profileCount,
+    profileIndex,
+    visibleProfile,
+  ]);
 
   useEffect(() => {
     if (profileCount === 0) {

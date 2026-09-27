@@ -1,29 +1,48 @@
 import { USER_PHOTO } from "../constants/user";
-import { profiles } from "../context/profiles";
-import { hasCachedAsset, storeCachedAsset } from "./assetCache";
+import { getProfileById, profiles } from "../context/profiles";
+import type { Profile } from "../context/profiles.types";
+import {
+  hasCachedAsset,
+  markAssetSettled,
+  storeCachedAsset,
+  whenAssetSettled,
+} from "./assetCache";
 
 const MIN_LOADER_MS = 1200;
 const ASSET_TIMEOUT_MS = 45000;
-const MEDIA_CONCURRENCY = 3;
-const IMAGE_CONCURRENCY = 8;
+const PRELOAD_CONCURRENCY = 4;
 const IMAGE_EXTENSION = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
-const VIDEO_EXTENSION = /\.(m4v|mov|mp4|webm)$/i;
 
-let preloadPromise: Promise<void> | null = null;
+const queued = new Set<string>();
+const inFlight = new Set<string>();
+const queue: string[] = [];
+let activeCount = 0;
+let pipelineStarted = false;
 
-const collectAssetSrcs = () => {
+const collectProfileAssetSrcs = (profile: Profile) => {
+  const srcs = new Set<string>([profile.photo.src]);
+
+  for (const block of profile.blocks) {
+    if (
+      block.type === "image" ||
+      block.type === "audio" ||
+      block.type === "video"
+    ) {
+      srcs.add(block.src);
+    }
+  }
+
+  return [...srcs];
+};
+
+const collectFirstProfileImageSrcs = () => {
+  const firstProfile = profiles[0];
   const srcs = new Set<string>([USER_PHOTO.src]);
 
-  for (const profile of profiles) {
-    srcs.add(profile.photo.src);
-
-    for (const block of profile.blocks) {
-      if (
-        block.type === "image" ||
-        block.type === "audio" ||
-        block.type === "video"
-      ) {
-        srcs.add(block.src);
+  if (firstProfile) {
+    for (const src of collectProfileAssetSrcs(firstProfile)) {
+      if (IMAGE_EXTENSION.test(src)) {
+        srcs.add(src);
       }
     }
   }
@@ -53,6 +72,7 @@ const decodeImage = (src: string) => {
 
 const cacheAsset = async (src: string) => {
   if (hasCachedAsset(src)) {
+    markAssetSettled(src);
     return;
   }
 
@@ -71,28 +91,65 @@ const cacheAsset = async (src: string) => {
   }
 };
 
-const preloadAsset = (src: string) => {
-  return withTimeout(
-    cacheAsset(src).catch(() => undefined),
-    ASSET_TIMEOUT_MS,
-  );
+const preloadAsset = async (src: string) => {
+  try {
+    await withTimeout(
+      cacheAsset(src).catch(() => undefined),
+      ASSET_TIMEOUT_MS,
+    );
+  } finally {
+    markAssetSettled(src);
+  }
 };
 
-const runPool = async (srcs: string[], concurrency: number) => {
-  const queue = [...srcs];
-  const workerCount = Math.min(concurrency, queue.length);
+const pumpQueue = () => {
+  while (activeCount < PRELOAD_CONCURRENCY && queue.length > 0) {
+    const src = queue.shift();
 
-  await Promise.all(
-    Array.from({ length: workerCount }, async () => {
-      while (queue.length > 0) {
-        const src = queue.shift();
+    if (!src) {
+      break;
+    }
 
-        if (src) {
-          await preloadAsset(src);
-        }
+    queued.delete(src);
+    inFlight.add(src);
+    activeCount += 1;
+
+    void preloadAsset(src).finally(() => {
+      inFlight.delete(src);
+      activeCount -= 1;
+      pumpQueue();
+    });
+  }
+};
+
+const enqueueSrcs = (srcs: string[], front = false) => {
+  const nextSrcs: string[] = [];
+
+  for (const src of srcs) {
+    if (hasCachedAsset(src) || inFlight.has(src)) {
+      continue;
+    }
+
+    if (queued.has(src)) {
+      const queuedIndex = queue.indexOf(src);
+
+      if (queuedIndex >= 0) {
+        queue.splice(queuedIndex, 1);
       }
-    }),
-  );
+    } else {
+      queued.add(src);
+    }
+
+    nextSrcs.push(src);
+  }
+
+  if (front) {
+    queue.unshift(...nextSrcs);
+  } else {
+    queue.push(...nextSrcs);
+  }
+
+  pumpQueue();
 };
 
 const wait = (ms: number) => {
@@ -101,26 +158,53 @@ const wait = (ms: number) => {
   });
 };
 
-const preloadAllAssets = async () => {
-  const srcs = collectAssetSrcs();
-  const videos = srcs.filter((src) => VIDEO_EXTENSION.test(src));
-  const images = srcs.filter((src) => IMAGE_EXTENSION.test(src));
-  const audio = srcs.filter(
-    (src) => !VIDEO_EXTENSION.test(src) && !IMAGE_EXTENSION.test(src),
-  );
+const waitForSrcs = (srcs: string[]) => {
+  return Promise.all(srcs.map((src) => whenAssetSettled(src)));
+};
 
-  await runPool(videos, MEDIA_CONCURRENCY);
-  await runPool([...images, ...audio], IMAGE_CONCURRENCY);
+const startPreloadPipeline = () => {
+  if (pipelineStarted) {
+    return;
+  }
+
+  pipelineStarted = true;
+
+  const firstImageSrcs = collectFirstProfileImageSrcs();
+  enqueueSrcs(firstImageSrcs, true);
+
+  const remainingSrcs = profiles.flatMap((profile, index) => {
+    const srcs = collectProfileAssetSrcs(profile);
+
+    if (index === 0) {
+      return srcs.filter((src) => !IMAGE_EXTENSION.test(src));
+    }
+
+    return srcs;
+  });
+
+  enqueueSrcs(remainingSrcs);
 };
 
 export const preloadProfileAssets = () => {
-  if (!preloadPromise) {
-    preloadPromise = preloadAllAssets();
+  startPreloadPipeline();
+  return waitForSrcs(collectFirstProfileImageSrcs());
+};
+
+export const prioritizeProfileAssets = (profileId: string) => {
+  startPreloadPipeline();
+  const profile = getProfileById(profileId);
+
+  if (!profile) {
+    return;
   }
 
-  return preloadPromise;
+  enqueueSrcs(collectProfileAssetSrcs(profile), true);
 };
 
 export const waitForProfileAssets = async (minDurationMs = MIN_LOADER_MS) => {
-  await Promise.all([preloadProfileAssets(), wait(minDurationMs)]);
+  startPreloadPipeline();
+  await Promise.all([
+    waitForSrcs(collectFirstProfileImageSrcs()),
+    wait(minDurationMs),
+  ]);
 };
