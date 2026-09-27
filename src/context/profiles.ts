@@ -5,7 +5,7 @@ export const profiles: Profile[] = [
     id: "kari-walks",
     name: "Kari Walks",
     photo: {
-      src: "/profiles/kari-walks/pfp.png",
+      src: "/profiles/kari-walks/pfp.jpg",
       alt: "Kari Flowers",
     },
     blocks: [
@@ -61,7 +61,7 @@ export const profiles: Profile[] = [
     id: "goat",
     name: "Goat",
     photo: {
-      src: "/melissa-placeholder.svg",
+      src: "/profiles/goat/pfp.png",
       alt: "Goat",
     },
     blocks: [
@@ -142,7 +142,7 @@ export const profiles: Profile[] = [
     id: "creative-energy",
     name: "Our Creative Energy",
     photo: {
-      src: "/profiles/our-creative-enever/pfp.jpg",
+      src: "/profiles/creative-energy/pfp.jpg",
       alt: "PFP",
     },
     blocks: [
