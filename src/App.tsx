@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/Layout";
 import { ChatPage } from "./pages/ChatPage";
 import { DiscoverPage } from "./pages/DiscoverPage";
@@ -13,6 +13,7 @@ function App() {
         <Route path="/discover" element={<DiscoverPage />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/messages/:profileId" element={<ChatPage />} />
+        <Route path="*" element={<Navigate to="/discover" replace />} />
       </Routes>
     </Layout>
   );
