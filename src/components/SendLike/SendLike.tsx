@@ -4,7 +4,7 @@ import * as S from "./SendLike.styles";
 import type { SendLikeProps } from "./SendLike.types";
 
 const ease = [0.32, 0.72, 0, 1] as const;
-const blockDuration = 0.5;
+const blockDuration = 0.32;
 
 export const SendLike = ({
   block,
@@ -119,7 +119,7 @@ export const SendLike = ({
             ref={cardRef}
             layoutId={blockLayoutId}
             layout
-            transition={{ duration: blockDuration, ease }}
+            transition={{ duration: blockDuration, ease, type: "tween" }}
             onLayoutAnimationStart={handleLayoutAnimationStart}
             onLayoutAnimationComplete={handleLayoutAnimationComplete}
           >

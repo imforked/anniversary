@@ -6,6 +6,7 @@ export const Card = styled.article<{ $square: boolean }>`
   overflow: hidden;
   border-radius: 16px;
   background-color: #ffffff;
+  transform: translateZ(0);
   box-shadow:
     0 2px 8px rgba(26, 26, 26, 0.06),
     0 8px 28px rgba(26, 26, 26, 0.1);

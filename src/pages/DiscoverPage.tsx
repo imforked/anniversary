@@ -32,7 +32,7 @@ const PassIcon = () => {
 };
 
 const layoutTransition = {
-  duration: 0.5,
+  duration: 0.32,
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
@@ -183,17 +183,22 @@ export const DiscoverPage = () => {
                       <S.Feed>
                         {visibleProfile.blocks.map((block, index) => {
                           const blockLayoutId = `${visibleProfile.id}-block-${index}`;
+                          const isSelected = likedIndex === index;
 
                           return (
                             <S.FeedCard
                               key={blockLayoutId}
                               layoutId={blockLayoutId}
-                              layout
                               transition={layoutTransition}
+                              style={
+                                likedIndex !== null && !isSelected
+                                  ? { visibility: "hidden" }
+                                  : undefined
+                              }
                             >
                               <ProfileCard
                                 block={block}
-                                showLikeButton={likedIndex !== index}
+                                showLikeButton={!isSelected}
                                 onLike={() => setLikedIndex(index)}
                               />
                             </S.FeedCard>

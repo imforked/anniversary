@@ -34,6 +34,8 @@ export const Content = styled.div`
 
 export const CardSlot = styled(motion.div)`
   width: 100%;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 `;
 
 export const Form = styled(motion.div)`
