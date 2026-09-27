@@ -8,6 +8,7 @@ export const Root = styled.div`
 `;
 
 export const PromptCard = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -17,12 +18,15 @@ export const PromptCard = styled.div`
 `;
 
 export const PromptSurface = styled.div`
+  position: relative;
+  z-index: 0;
   align-self: stretch;
   width: 100%;
   min-width: 0;
   border-radius: 12px;
   background-color: #f2f2f2;
   overflow: hidden;
+  isolation: isolate;
 `;
 
 export const TextContent = styled.div`
@@ -59,6 +63,8 @@ export const Photo = styled.img`
 `;
 
 export const CommentBubble = styled.p`
+  position: relative;
+  z-index: 1;
   max-width: min(240px, 90%);
   margin: -12px 16px 0 0;
   padding: 12px 16px;
@@ -70,4 +76,5 @@ export const CommentBubble = styled.p`
   color: var(--color-text);
   background-color: #f3d2b3;
   box-shadow: 0 2px 8px rgba(26, 26, 26, 0.08);
+  transform: translateZ(0);
 `;
