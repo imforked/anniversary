@@ -226,7 +226,7 @@ export const DiscoverPage = () => {
               </>
             ) : (
               <S.EmptyState>
-                Loading... More memories to come soon :)
+                Loading... More memories coming soon :)
               </S.EmptyState>
             )}
           </S.Body>
