@@ -66,6 +66,7 @@ export const profiles: Profile[] = [
       src: "/profiles/goat/pfp.png",
       alt: "Goat",
     },
+    chat: chats.goat,
     blocks: [
       {
         type: "image",

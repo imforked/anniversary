@@ -12,4 +12,15 @@ export const chats = {
       },
     ],
   },
+  goat: {
+    messages: [
+      {
+        text: "hey, this is the first goat message",
+      },
+      {
+        text: "hey, this is the second goat message",
+        typingDurationSeconds: 2,
+      },
+    ],
+  },
 } satisfies Record<string, ProfileChat>;
