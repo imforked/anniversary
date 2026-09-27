@@ -22,6 +22,7 @@ export const profiles: Profile[] = [
       {
         type: "image",
         src: "/profiles/kari-walks/lil-guy.jpg",
+        prompt: "I geek out on",
         alt: "Kari's lil guy",
       },
       {
@@ -107,12 +108,13 @@ export const profiles: Profile[] = [
       {
         type: "image",
         src: "/profiles/the-ladies/drowing-in-it.jpg",
-        alt: "Drowing in it.",
+        prompt: "I'm looking for",
+        alt: "Drowning in it.",
       },
       {
         type: "text",
         prompt: "Green flags I look for",
-        answer: "Sweet, well-adjusted, weird ladies.",
+        answer: "Sweet, well-adjusted, weirdos.",
       },
       {
         type: "image",
@@ -131,6 +133,7 @@ export const profiles: Profile[] = [
       {
         type: "image",
         src: "/profiles/the-ladies/smells.jpg",
+        prompt: "I won't shut up about",
         alt: "Smell addict.",
       },
     ],
@@ -161,6 +164,7 @@ export const profiles: Profile[] = [
       {
         type: "video",
         src: "/profiles/creative-energy/our-pole.mp4",
+        prompt: "Together, we could",
       },
       {
         type: "image",
@@ -215,7 +219,7 @@ export const profiles: Profile[] = [
       },
       {
         type: "video",
-        prompt: "My love language is",
+        prompt: "I'm weirdly attracted to",
         src: "/profiles/good-times/shoot-gun.mp4",
       },
       {
@@ -365,6 +369,7 @@ export const profiles: Profile[] = [
         type: "image",
         src: "/profiles/us/park-cuties.jpg",
         alt: "Park cuties.",
+        prompt: "A life goal of mine",
       },
       {
         type: "image",
