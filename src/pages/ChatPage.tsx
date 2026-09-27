@@ -34,12 +34,13 @@ export const ChatPage = () => {
   const profile = profileId ? getProfileById(profileId) : undefined;
   const match = profileId ? getMatch(profileId) : undefined;
 
-  if (!profile) {
-    return <Navigate to="/messages" replace />;
+  if (!profile || !match) {
+    return <Navigate to="/discover" replace />;
   }
 
-  const incomingMessages =
-    match?.messages.filter((message) => message.sender === "them") ?? [];
+  const incomingMessages = match.messages.filter(
+    (message) => message.sender === "them",
+  );
 
   return (
     <S.Page>
@@ -56,9 +57,7 @@ export const ChatPage = () => {
       <ChatTabSwitcher activeTab={activeTab} onTabChange={setActiveTab} />
       {activeTab === "chat" ? (
         <S.Body>
-          {match ? (
-            <LikeIntro block={match.likedBlock} comment={match.comment} />
-          ) : null}
+          <LikeIntro block={match.likedBlock} comment={match.comment} />
           <S.Messages>
             {incomingMessages.map((message, index) => (
               <IncomingMessage
@@ -69,7 +68,7 @@ export const ChatPage = () => {
             ))}
             <TypingIndicator
               photo={profile.photo}
-              isActive={match?.isTyping ?? false}
+              isActive={match.isTyping}
             />
           </S.Messages>
         </S.Body>
