@@ -35,6 +35,10 @@ const collectProfileAssetSrcs = (profile: Profile) => {
   return [...srcs];
 };
 
+const collectAvatarSrcs = () => {
+  return [USER_PHOTO.src, ...profiles.map((profile) => profile.photo.src)];
+};
+
 const collectFirstProfileImageSrcs = () => {
   const firstProfile = profiles[0];
   const srcs = new Set<string>([USER_PHOTO.src]);
@@ -170,6 +174,11 @@ const startPreloadPipeline = () => {
   pipelineStarted = true;
 
   const firstImageSrcs = collectFirstProfileImageSrcs();
+  const avatarSrcs = collectAvatarSrcs().filter(
+    (src) => !firstImageSrcs.includes(src),
+  );
+
+  enqueueSrcs(avatarSrcs, true);
   enqueueSrcs(firstImageSrcs, true);
 
   const remainingSrcs = profiles.flatMap((profile, index) => {

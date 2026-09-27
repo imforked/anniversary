@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useCachedSrc } from "../../utils/useCachedSrc";
 import * as S from "./ItsAMatch.styles";
 import type { ItsAMatchProps } from "./ItsAMatch.types";
 
@@ -27,6 +28,8 @@ export const ItsAMatch = ({
 }: ItsAMatchProps) => {
   const [phase, setPhase] = useState<Phase>("fadeIn");
   const hasNavigated = useRef(false);
+  const userSrc = useCachedSrc(userPhoto.src);
+  const matchSrc = useCachedSrc(matchPhoto.src);
 
   useEffect(() => {
     if (phase !== "hold") {
@@ -100,8 +103,8 @@ export const ItsAMatch = ({
             ease: isFadingOut ? fadeOutEase : fadeInEase,
           }}
         >
-          <S.Photo src={userPhoto.src} alt={userPhoto.alt} $offset={0} />
-          <S.Photo src={matchPhoto.src} alt={matchPhoto.alt} $offset={-28} />
+          <S.Photo src={userSrc} alt={userPhoto.alt} $offset={0} />
+          <S.Photo src={matchSrc} alt={matchPhoto.alt} $offset={-28} />
         </S.Photos>
         <S.Title
           initial={{ opacity: 0, y: 12 }}
