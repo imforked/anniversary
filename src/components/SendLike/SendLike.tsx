@@ -142,7 +142,7 @@ export const SendLike = ({
                 placeholder="Add a comment"
                 rows={1}
               />
-              <S.SendButton type="button" onClick={handleSend}>
+              <S.SendButton type="button" onPointerUp={handleSend}>
                 Send Like
               </S.SendButton>
               <S.CancelButton type="button" onClick={handleClose}>

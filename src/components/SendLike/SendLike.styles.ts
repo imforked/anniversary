@@ -33,15 +33,25 @@ export const Content = styled.div`
 `;
 
 export const CardSlot = styled(motion.div)`
+  position: relative;
+  z-index: 0;
   width: 100%;
   transform: translateZ(0);
   backface-visibility: hidden;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 `;
 
 export const Form = styled(motion.div)`
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  pointer-events: auto;
 `;
 
 export const CommentField = styled.textarea`
@@ -70,17 +80,40 @@ export const CommentField = styled.textarea`
 `;
 
 export const SendButton = styled.button`
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: 52px;
   padding: 16px 32px;
   border: none;
-  border-radius: 999px;
+  /* Keep the hit box rectangular. iOS Safari mis-hit-tests large radii, so
+     only the label in the center of a pill receives taps. */
+  border-radius: 0;
   font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.25;
   color: var(--color-text);
-  background-color: #f3d2b3;
+  background-color: transparent;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 26px;
+    background-color: #f3d2b3;
+    pointer-events: none;
+  }
 `;
 
 export const CancelButton = styled.button`
