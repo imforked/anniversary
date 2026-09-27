@@ -25,6 +25,7 @@ export const ProfileCard = ({
   onLike,
   showLikeButton = true,
   constrainTextToSquare = false,
+  mediaActive = true,
 }: ProfileCardProps) => {
   const imageSrc = useCachedSrc(block.type === "image" ? block.src : "");
   const textRef = useRef<HTMLDivElement>(null);
@@ -66,9 +67,17 @@ export const ProfileCard = ({
           <S.Photo src={imageSrc} alt={block.alt} />
         </MediaFrame>
       ) : block.type === "audio" ? (
-        <AudioPrompt prompt={block.prompt} src={block.src} />
+        <AudioPrompt
+          prompt={block.prompt}
+          src={block.src}
+          analyzeWaveform={mediaActive}
+        />
       ) : block.type === "video" ? (
-        <VideoPrompt prompt={block.prompt} src={block.src} />
+        <VideoPrompt
+          prompt={block.prompt}
+          src={block.src}
+          isActive={mediaActive}
+        />
       ) : (
         <>
           <S.TextContent ref={textRef} $constrained={constrainText}>

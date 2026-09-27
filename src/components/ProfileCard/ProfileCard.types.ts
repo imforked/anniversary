@@ -6,4 +6,5 @@ export type ProfileCardProps = {
   showLikeButton?: boolean;
   /** When true, text blocks use a 1:1 frame with clipped overflow (SendLike). */
   constrainTextToSquare?: boolean;
+  mediaActive?: boolean;
 };

@@ -17,6 +17,21 @@ export const NameBar = styled.div`
   background-color: #ffffff;
 `;
 
+export const Deck = styled.div`
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+`;
+
+export const DeckLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  backface-visibility: hidden;
+`;
+
 export const Main = styled.div`
   position: relative;
   flex: 1;
@@ -32,7 +47,8 @@ export const Body = styled.div`
 `;
 
 export const Scrollable = styled.div`
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: none;
 `;
@@ -69,6 +85,10 @@ export const PassButton = styled(motion.button)`
   svg {
     width: 30px;
     height: 30px;
+  }
+
+  &:disabled {
+    opacity: 1;
   }
 `;
 

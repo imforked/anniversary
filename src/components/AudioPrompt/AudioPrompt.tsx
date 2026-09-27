@@ -26,7 +26,12 @@ const loadingBarHeights = Array.from({ length: BAR_COUNT }, (_, index) => {
   return Math.round(12 + (1 - distance) * 10);
 });
 
-export const AudioPrompt = ({ prompt, src, compact = false }: AudioPromptProps) => {
+export const AudioPrompt = ({
+  prompt,
+  src,
+  compact = false,
+  analyzeWaveform = true,
+}: AudioPromptProps) => {
   const playbackSrc = useCachedSrc(src);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -35,6 +40,12 @@ export const AudioPrompt = ({ prompt, src, compact = false }: AudioPromptProps) 
   const [isWaveformReady, setIsWaveformReady] = useState(false);
 
   useEffect(() => {
+    if (!analyzeWaveform) {
+      setBarHeights(loadingBarHeights);
+      setIsWaveformReady(false);
+      return;
+    }
+
     let cancelled = false;
 
     const loadWaveform = async () => {
@@ -59,7 +70,7 @@ export const AudioPrompt = ({ prompt, src, compact = false }: AudioPromptProps) 
     return () => {
       cancelled = true;
     };
-  }, [src]);
+  }, [analyzeWaveform, src]);
 
   useEffect(() => {
     const audio = audioRef.current;
