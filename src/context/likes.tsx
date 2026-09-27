@@ -4,11 +4,15 @@ import {
   useContext,
   useMemo,
   useState,
+  type Dispatch,
   type ReactNode,
+  type SetStateAction,
 } from "react";
 import { getProfileById, profiles } from "./profiles";
 import type { Profile } from "./profiles.types";
 import type { Match } from "./matches.types";
+import { MATCH_OVERLAY_DURATION_SECONDS } from "../components/ItsAMatch";
+import { getTypingDurationSeconds } from "./chats.types";
 
 type LikesContextValue = {
   likeProfile: (
@@ -23,16 +27,53 @@ type LikesContextValue = {
 
 const LikesContext = createContext<LikesContextValue | null>(null);
 
-const buildInitialMessages = (comment: string): Match["messages"] => {
-  const messages: Match["messages"] = [];
+const wait = (ms: number) => {
+  return new Promise<void>((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+};
 
-  if (comment.trim()) {
-    messages.push({ sender: "user", text: comment.trim() });
+const playIncomingChat = (
+  profileId: string,
+  setMatches: Dispatch<SetStateAction<Match[]>>,
+) => {
+  const script = getProfileById(profileId)?.chat?.messages;
+
+  if (!script || script.length === 0) {
+    return;
   }
 
-  messages.push({ sender: "them", text: "I'm a teacher" });
+  const run = async () => {
+    for (let index = 0; index < script.length; index += 1) {
+      const message = script[index];
+      const typingSeconds = getTypingDurationSeconds(message);
+      const delaySeconds =
+        index === 0
+          ? typingSeconds + MATCH_OVERLAY_DURATION_SECONDS
+          : typingSeconds;
 
-  return messages;
+      await wait(delaySeconds * 1000);
+
+      setMatches((current) =>
+        current.map((match) => {
+          if (match.profileId !== profileId) {
+            return match;
+          }
+
+          return {
+            ...match,
+            messages: [
+              ...match.messages,
+              { sender: "them" as const, text: message.text },
+            ],
+            isTyping: index < script.length - 1,
+          };
+        }),
+      );
+    }
+  };
+
+  void run();
 };
 
 export const LikesProvider = ({ children }: { children: ReactNode }) => {
@@ -44,6 +85,14 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
     profileId: string,
     data: { comment: string; likedBlock: Match["likedBlock"] },
   ) => {
+    if (matches.some((match) => match.profileId === profileId)) {
+      return;
+    }
+
+    const hasIncomingChat = Boolean(
+      getProfileById(profileId)?.chat?.messages.length,
+    );
+
     setLikedProfileIds((current) => {
       if (current.includes(profileId)) {
         return current;
@@ -52,22 +101,18 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
       return [...current, profileId];
     });
 
-    setMatches((current) => {
-      if (current.some((match) => match.profileId === profileId)) {
-        return current;
-      }
+    setMatches((current) => [
+      ...current,
+      {
+        profileId,
+        likedBlock: data.likedBlock,
+        comment: data.comment,
+        messages: [],
+        isTyping: hasIncomingChat,
+      },
+    ]);
 
-      return [
-        ...current,
-        {
-          profileId,
-          likedBlock: data.likedBlock,
-          comment: data.comment,
-          messages: buildInitialMessages(data.comment),
-          isTyping: true,
-        },
-      ];
-    });
+    playIncomingChat(profileId, setMatches);
   };
 
   const passProfile = (profileId: string) => {

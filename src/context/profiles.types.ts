@@ -1,3 +1,5 @@
+import type { ProfileChat } from "./chats.types";
+
 export type ProfileImage = {
   src: string;
   alt: string;
@@ -33,4 +35,5 @@ export type Profile = {
   name: string;
   photo: ProfileImage;
   blocks: ProfileBlock[];
+  chat?: ProfileChat;
 };

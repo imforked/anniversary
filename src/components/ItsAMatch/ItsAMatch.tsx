@@ -3,11 +3,18 @@ import * as S from "./ItsAMatch.styles";
 import type { ItsAMatchProps } from "./ItsAMatch.types";
 
 const fadeInEase = [0.32, 0.72, 0, 1] as const;
-const backdropFadeInDuration = 0.55;
-const contentFadeInDelay = 0.18;
-const contentFadeInDuration = 0.5;
-const holdDuration = 2.17;
-const fadeOutDuration = 1.5;
+export const MATCH_BACKDROP_FADE_IN_SECONDS = 0.55;
+export const MATCH_CONTENT_FADE_IN_DELAY_SECONDS = 0.18;
+export const MATCH_CONTENT_FADE_IN_DURATION_SECONDS = 0.5;
+export const MATCH_HOLD_DURATION_SECONDS = 2.17;
+export const MATCH_FADE_OUT_DURATION_SECONDS = 1.5;
+
+export const MATCH_OVERLAY_DURATION_SECONDS =
+  MATCH_CONTENT_FADE_IN_DELAY_SECONDS +
+  MATCH_CONTENT_FADE_IN_DURATION_SECONDS +
+  MATCH_HOLD_DURATION_SECONDS +
+  MATCH_FADE_OUT_DURATION_SECONDS;
+
 const fadeOutEase = fadeInEase;
 
 type Phase = "fadeIn" | "hold" | "fadeOut";
@@ -33,11 +40,11 @@ export const ItsAMatch = ({
 
       hasNavigated.current = true;
       onNavigate?.();
-    }, (holdDuration / 2) * 1000);
+    }, (MATCH_HOLD_DURATION_SECONDS / 2) * 1000);
 
     const fadeOutTimeoutId = window.setTimeout(() => {
       setPhase("fadeOut");
-    }, holdDuration * 1000);
+    }, MATCH_HOLD_DURATION_SECONDS * 1000);
 
     return () => {
       window.clearTimeout(navigateTimeoutId);
@@ -66,7 +73,7 @@ export const ItsAMatch = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: isFadingOut ? 0 : 1 }}
         transition={{
-          duration: isFadingOut ? fadeOutDuration : backdropFadeInDuration,
+          duration: isFadingOut ? MATCH_FADE_OUT_DURATION_SECONDS : MATCH_BACKDROP_FADE_IN_SECONDS,
           ease: isFadingOut ? fadeOutEase : fadeInEase,
         }}
         onAnimationComplete={handleBackdropAnimationComplete}
@@ -75,8 +82,8 @@ export const ItsAMatch = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: isFadingOut ? 0 : 1 }}
         transition={{
-          duration: isFadingOut ? fadeOutDuration : contentFadeInDuration,
-          delay: isFadingIn ? contentFadeInDelay : 0,
+          duration: isFadingOut ? MATCH_FADE_OUT_DURATION_SECONDS : MATCH_CONTENT_FADE_IN_DURATION_SECONDS,
+          delay: isFadingIn ? MATCH_CONTENT_FADE_IN_DELAY_SECONDS : 0,
           ease: isFadingOut ? fadeOutEase : fadeInEase,
         }}
         onAnimationComplete={handleContentAnimationComplete}
@@ -88,8 +95,8 @@ export const ItsAMatch = ({
             scale: isFadingOut ? 0.98 : 1,
           }}
           transition={{
-            duration: isFadingOut ? fadeOutDuration : contentFadeInDuration,
-            delay: isFadingIn ? contentFadeInDelay : 0,
+            duration: isFadingOut ? MATCH_FADE_OUT_DURATION_SECONDS : MATCH_CONTENT_FADE_IN_DURATION_SECONDS,
+            delay: isFadingIn ? MATCH_CONTENT_FADE_IN_DELAY_SECONDS : 0,
             ease: isFadingOut ? fadeOutEase : fadeInEase,
           }}
         >
@@ -103,8 +110,8 @@ export const ItsAMatch = ({
             y: isFadingOut ? -8 : 0,
           }}
           transition={{
-            duration: isFadingOut ? fadeOutDuration : contentFadeInDuration,
-            delay: isFadingIn ? contentFadeInDelay + 0.06 : 0,
+            duration: isFadingOut ? MATCH_FADE_OUT_DURATION_SECONDS : MATCH_CONTENT_FADE_IN_DURATION_SECONDS,
+            delay: isFadingIn ? MATCH_CONTENT_FADE_IN_DELAY_SECONDS + 0.06 : 0,
             ease: isFadingOut ? fadeOutEase : fadeInEase,
           }}
         >

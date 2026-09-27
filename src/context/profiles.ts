@@ -1,3 +1,4 @@
+import { chats } from "./chats";
 import type { Profile } from "./profiles.types";
 
 export const profiles: Profile[] = [
@@ -8,6 +9,7 @@ export const profiles: Profile[] = [
       src: "/profiles/kari-walks/pfp.jpg",
       alt: "Kari Flowers",
     },
+    chat: chats["kari-walks"],
     blocks: [
       {
         type: "image",
