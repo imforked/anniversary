@@ -24,6 +24,7 @@ export const ChatTabSwitcher = ({
     left: 0,
     width: 0,
   });
+  const canAnimate = useRef(false);
 
   useLayoutEffect(() => {
     const activeRef = activeTab === "chat" ? chatRef : profileRef;
@@ -42,6 +43,12 @@ export const ChatTabSwitcher = ({
       width: tabRect.width,
     });
   }, [activeTab]);
+
+  useLayoutEffect(() => {
+    if (indicator.width > 0) {
+      canAnimate.current = true;
+    }
+  }, [indicator]);
 
   return (
     <S.Switcher>
@@ -64,11 +71,16 @@ export const ChatTabSwitcher = ({
           Profile
         </S.Tab>
         <S.Indicator
+          initial={false}
           animate={{
             left: indicator.left,
             width: indicator.width,
+            opacity: indicator.width > 0 ? 1 : 0,
           }}
-          transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+          transition={{
+            duration: canAnimate.current ? 0.25 : 0,
+            ease: [0.32, 0.72, 0, 1],
+          }}
         />
       </S.TabsRow>
     </S.Switcher>
