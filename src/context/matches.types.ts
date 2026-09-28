@@ -1,4 +1,3 @@
-import type { IncomingChatMessage } from "./chats.types";
 import type { ProfileBlock } from "./profiles.types";
 
 export type ChatMessage = {

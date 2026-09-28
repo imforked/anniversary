@@ -42,7 +42,7 @@ export const getTypingDurationSeconds = (message: IncomingChatMessage) => {
   return message.typingDurationSeconds ?? DEFAULT_TYPING_DURATION_SECONDS;
 };
 
-export const getChatMessagePreview = (message: IncomingChatMessage | { type?: string; text?: string }) => {
+export const getChatMessagePreview = (message: IncomingChatMessage) => {
   if (message.type === "image") {
     return "Sent a photo";
   }
@@ -51,5 +51,5 @@ export const getChatMessagePreview = (message: IncomingChatMessage | { type?: st
     return "Sent a voice note";
   }
 
-  return message.text ?? "";
+  return message.text;
 };
