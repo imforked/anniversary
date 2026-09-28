@@ -85,7 +85,7 @@ const renderFeed = (
         return (
           <S.FeedCard
             key={blockLayoutId}
-            layoutId={isSelected ? blockLayoutId : undefined}
+              layoutId={options.interactive ? blockLayoutId : undefined}
             transition={layoutTransition}
             style={
               options.interactive && options.likedIndex !== null && !isSelected
