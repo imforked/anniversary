@@ -32,6 +32,12 @@ const collectProfileAssetSrcs = (profile: Profile) => {
     }
   }
 
+  for (const message of profile.chat?.messages ?? []) {
+    if (message.type === "image" || message.type === "audio") {
+      srcs.add(message.src);
+    }
+  }
+
   return [...srcs];
 };
 

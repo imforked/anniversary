@@ -127,7 +127,7 @@ export const AudioPrompt = ({
 
   return (
     <S.Root $compact={compact}>
-      <S.Prompt>{prompt}</S.Prompt>
+      {prompt ? <S.Prompt>{prompt}</S.Prompt> : null}
       <S.Player>
         <S.PlayButton
           type="button"

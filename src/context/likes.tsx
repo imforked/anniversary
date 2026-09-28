@@ -13,8 +13,10 @@ import type { Profile } from "./profiles.types";
 import type { Match } from "./matches.types";
 import { MATCH_OVERLAY_DURATION_SECONDS } from "../components/ItsAMatch";
 import {
+  getChatMessagePreview,
   getTypingDurationSeconds,
   getTypingStartDelaySeconds,
+  type IncomingChatMessage,
 } from "./chats.types";
 
 type LikesContextValue = {
@@ -29,6 +31,32 @@ type LikesContextValue = {
 };
 
 const LikesContext = createContext<LikesContextValue | null>(null);
+
+const toPostedMessage = (message: IncomingChatMessage): Match["messages"][number] => {
+  if (message.type === "image") {
+    return {
+      sender: "them",
+      type: "image",
+      src: message.src,
+      alt: message.alt ?? "",
+    };
+  }
+
+  if (message.type === "audio") {
+    return {
+      sender: "them",
+      type: "audio",
+      src: message.src,
+      prompt: message.prompt,
+    };
+  }
+
+  return {
+    sender: "them",
+    type: "text",
+    text: message.text,
+  };
+};
 
 const wait = (ms: number) => {
   return new Promise<void>((resolve) => {
@@ -81,10 +109,7 @@ const playIncomingChat = (
 
           return {
             ...match,
-            messages: [
-              ...match.messages,
-              { sender: "them" as const, text: message.text },
-            ],
+            messages: [...match.messages, toPostedMessage(message)],
             isTyping: false,
           };
         }),
@@ -197,8 +222,10 @@ export const useMatchList = () => {
             return null;
           }
 
-          const lastMessage =
-            match.messages[match.messages.length - 1]?.text ?? "";
+          const lastPosted = match.messages[match.messages.length - 1];
+          const lastMessage = lastPosted
+            ? getChatMessagePreview(lastPosted)
+            : "";
 
           return {
             profile,

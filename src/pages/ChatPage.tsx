@@ -61,9 +61,9 @@ export const ChatPage = () => {
           <S.Messages>
             {incomingMessages.map((message, index) => (
               <IncomingMessage
-                key={`${message.text}-${index}`}
+                key={`${profile.id}-${index}`}
                 photo={profile.photo}
-                text={message.text}
+                message={message}
               />
             ))}
             <TypingIndicator

@@ -11,6 +11,17 @@ export const chats = {
         text: "hey, this is the second message",
         typingDurationSeconds: 2,
       },
+      {
+        type: "image",
+        src: "/profiles/kari-walks/lil-guy.jpg",
+        alt: "Kari's lil guy",
+        typingDurationSeconds: 2,
+      },
+      {
+        type: "audio",
+        src: "/profiles/parrot/parrot-ily.m4a",
+        typingDurationSeconds: 2,
+      },
     ],
   },
   goat: {

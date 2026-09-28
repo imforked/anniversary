@@ -1,5 +1,5 @@
 export type AudioPromptProps = {
-  prompt: string;
+  prompt?: string;
   src: string;
   compact?: boolean;
   analyzeWaveform?: boolean;

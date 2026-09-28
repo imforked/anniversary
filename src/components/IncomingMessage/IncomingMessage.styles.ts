@@ -19,3 +19,24 @@ export const Bubble = styled.p`
   color: var(--color-text);
   background-color: #ececec;
 `;
+
+export const PhotoBubble = styled.div`
+  max-width: 75%;
+  overflow: hidden;
+  border-radius: 16px 16px 16px 4px;
+  background-color: #ececec;
+`;
+
+export const Photo = styled.img`
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+`;
+
+export const AudioBubble = styled.div`
+  width: min(280px, 75%);
+  overflow: hidden;
+  border-radius: 16px 16px 16px 4px;
+  background-color: #ececec;
+`;

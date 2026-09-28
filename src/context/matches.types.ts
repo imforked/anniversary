@@ -1,9 +1,13 @@
+import type { IncomingChatMessage } from "./chats.types";
 import type { ProfileBlock } from "./profiles.types";
 
 export type ChatMessage = {
   sender: "user" | "them";
-  text: string;
-};
+} & (
+  | { type?: "text"; text: string }
+  | { type: "image"; src: string; alt: string }
+  | { type: "audio"; src: string; prompt?: string }
+);
 
 export type Match = {
   profileId: string;
