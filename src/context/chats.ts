@@ -48,12 +48,36 @@ export const chats = {
   goat: {
     messages: [
       {
-        text: "hey, this is the first goat message",
+        text: "Yo",
         typingStartDelaySeconds: 1,
+        typingDurationSeconds: 1.5,
       },
       {
-        text: "hey, this is the second goat message",
+        text: "I’m the goat",
+        typingStartDelaySeconds: 0.5,
         typingDurationSeconds: 2,
+      },
+      {
+        text: "Anyway",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 1.5,
+      },
+      {
+        text: "Want a pic? ;)",
+        typingStartDelaySeconds: 1.1,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        type: "image",
+        src: "/profiles/goat/chat/goat-butt.jpg",
+        alt: "Goat",
+        typingStartDelaySeconds: 5,
+        typingDurationSeconds: 5,
+      },
+      {
+        text: "wyd tn?",
+        typingStartDelaySeconds: 2,
+        typingDurationSeconds: 2.5,
       },
     ],
   },
