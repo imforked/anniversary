@@ -5,6 +5,7 @@ export const chats = {
     messages: [
       {
         text: "hey, this is the first message",
+        typingStartDelaySeconds: 1,
       },
       {
         text: "hey, this is the second message",
@@ -16,6 +17,7 @@ export const chats = {
     messages: [
       {
         text: "hey, this is the first goat message",
+        typingStartDelaySeconds: 1,
       },
       {
         text: "hey, this is the second goat message",

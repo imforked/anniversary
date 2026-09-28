@@ -12,7 +12,10 @@ import { getProfileById, profiles } from "./profiles";
 import type { Profile } from "./profiles.types";
 import type { Match } from "./matches.types";
 import { MATCH_OVERLAY_DURATION_SECONDS } from "../components/ItsAMatch";
-import { getTypingDurationSeconds } from "./chats.types";
+import {
+  getTypingDurationSeconds,
+  getTypingStartDelaySeconds,
+} from "./chats.types";
 
 type LikesContextValue = {
   likeProfile: (
@@ -46,13 +49,29 @@ const playIncomingChat = (
   const run = async () => {
     for (let index = 0; index < script.length; index += 1) {
       const message = script[index];
+      const startDelaySeconds = getTypingStartDelaySeconds(message);
       const typingSeconds = getTypingDurationSeconds(message);
-      const delaySeconds =
+      const delayBeforeTypingSeconds =
         index === 0
-          ? typingSeconds + MATCH_OVERLAY_DURATION_SECONDS
-          : typingSeconds;
+          ? startDelaySeconds + MATCH_OVERLAY_DURATION_SECONDS
+          : startDelaySeconds;
 
-      await wait(delaySeconds * 1000);
+      await wait(delayBeforeTypingSeconds * 1000);
+
+      setMatches((current) =>
+        current.map((match) => {
+          if (match.profileId !== profileId) {
+            return match;
+          }
+
+          return {
+            ...match,
+            isTyping: true,
+          };
+        }),
+      );
+
+      await wait(typingSeconds * 1000);
 
       setMatches((current) =>
         current.map((match) => {
@@ -66,7 +85,7 @@ const playIncomingChat = (
               ...match.messages,
               { sender: "them" as const, text: message.text },
             ],
-            isTyping: index < script.length - 1,
+            isTyping: false,
           };
         }),
       );
@@ -89,10 +108,6 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    const hasIncomingChat = Boolean(
-      getProfileById(profileId)?.chat?.messages.length,
-    );
-
     setLikedProfileIds((current) => {
       if (current.includes(profileId)) {
         return current;
@@ -108,7 +123,7 @@ export const LikesProvider = ({ children }: { children: ReactNode }) => {
         likedBlock: data.likedBlock,
         comment: data.comment,
         messages: [],
-        isTyping: hasIncomingChat,
+        isTyping: false,
       },
     ]);
 
