@@ -53,7 +53,7 @@ export const chats = {
         typingDurationSeconds: 5,
       },
       {
-        text: "Whether we’re purring in bed…",
+        text: "Whether we're learning how to purr...",
         typingStartDelaySeconds: 0.5,
         typingDurationSeconds: 2.5,
       },
@@ -63,7 +63,7 @@ export const chats = {
         typingDurationSeconds: 2.5,
       },
       {
-        text: "Or thinking in the chamber…",
+        text: "Or hiding from the monstrous pb…",
         typingStartDelaySeconds: 0.25,
         typingDurationSeconds: 2.5,
       },
