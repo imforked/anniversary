@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundVideo from "./assets/background.mp4";
 import { Button } from "../Button";
@@ -7,16 +7,39 @@ import { SignInForm } from "../SignInForm";
 import { preloadProfileAssets } from "../../utils/preloadProfileAssets";
 import * as S from "./Login.styles";
 
-const handleVideoCanPlay = (event: React.SyntheticEvent<HTMLVideoElement>) => {
-  event.currentTarget.playbackRate = 0.65;
-  void preloadProfileAssets();
-};
-
 export const Login = () => {
   const navigate = useNavigate();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hasRevealed = useRef(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+
+  const revealLogin = (video: HTMLVideoElement) => {
+    if (hasRevealed.current) {
+      return;
+    }
+
+    hasRevealed.current = true;
+    video.playbackRate = 0.65;
+    setIsVideoReady(true);
+    void preloadProfileAssets();
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (video && video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      revealLogin(video);
+    }
+  }, []);
+
+  const handleVideoCanPlay = (
+    event: React.SyntheticEvent<HTMLVideoElement>,
+  ) => {
+    revealLogin(event.currentTarget);
+  };
 
   const handleSuccess = () => {
     setIsLeaving(true);
@@ -37,6 +60,7 @@ export const Login = () => {
   return (
     <S.Container>
       <S.BackgroundVideo
+        ref={videoRef}
         src={backgroundVideo}
         autoPlay
         muted
@@ -44,6 +68,10 @@ export const Login = () => {
         playsInline
         preload="auto"
         onCanPlay={handleVideoCanPlay}
+        onError={() => {
+          hasRevealed.current = true;
+          setIsVideoReady(true);
+        }}
       />
       <S.Scrim />
       <S.Top>
@@ -70,7 +98,10 @@ export const Login = () => {
         onSuccess={handleSuccess}
       />
 
-      <S.FadeCover $isVisible={isLeaving} onTransitionEnd={handleFadeOutEnd} />
+      <S.FadeCover
+        $isVisible={!isVideoReady || isLeaving}
+        onTransitionEnd={handleFadeOutEnd}
+      />
     </S.Container>
   );
 };
