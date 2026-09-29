@@ -97,6 +97,7 @@ export const profiles: Profile[] = [
       src: "/profiles/the-ladies/pfp.jpg",
       alt: "Ahhhhhh",
     },
+    chat: chats["the-ladies"],
     blocks: [
       {
         type: "image",

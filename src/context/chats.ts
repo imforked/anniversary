@@ -45,6 +45,40 @@ export const chats = {
       },
     ],
   },
+  "the-ladies": {
+    messages: [
+      {
+        text: "I’m grateful that you and the ladies have invited me into your cozy home.",
+        typingStartDelaySeconds: 1,
+        typingDurationSeconds: 5,
+      },
+      {
+        text: "Whether we’re purring in bed…",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "Investigating mysterious boxes…",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "Or thinking in the chamber…",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I love being a part of this family",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "Thank you bringing me into this family",
+        typingStartDelaySeconds: 1.1,
+        typingDurationSeconds: 3,
+      },
+    ],
+  },
   goat: {
     messages: [
       {
