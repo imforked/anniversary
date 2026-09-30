@@ -19,7 +19,7 @@ export const IncomingMessage = ({ photo, message }: IncomingMessageProps) => {
           <AudioPrompt prompt={message.prompt} src={message.src} compact />
         </S.AudioBubble>
       ) : (
-        <S.Bubble>{message.text}</S.Bubble>
+        <S.Bubble dangerouslySetInnerHTML={{ __html: message.text }} />
       )}
     </S.Row>
   );

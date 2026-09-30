@@ -51,5 +51,5 @@ export const getChatMessagePreview = (message: IncomingChatMessage) => {
     return "Sent a voice note";
   }
 
-  return message.text;
+  return message.text.replace(/<[^>]+>/g, "");
 };

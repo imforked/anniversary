@@ -145,6 +145,7 @@ export const profiles: Profile[] = [
   {
     id: "creative-energy",
     name: "Our Creative Energy",
+    chat: chats["creative-energy"],
     photo: {
       src: "/profiles/creative-energy/pfp.jpg",
       alt: "PFP",

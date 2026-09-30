@@ -79,6 +79,55 @@ export const chats = {
       },
     ],
   },
+  "creative-energy": {
+    messages: [
+      {
+        text: "My muuuuuuuse",
+        typingStartDelaySeconds: 1,
+        typingDurationSeconds: 1.6,
+      },
+      {
+        text: "😘",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 1.5,
+      },
+      {
+        text: "One of the most valuable dimensions of our relationship is our creative energy.",
+        typingStartDelaySeconds: 0.8,
+        typingDurationSeconds: 5,
+      },
+      {
+        text: "Before meeting you, I loved playing in my lab.",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I’m so happy you not only fit the flow of the lab",
+        typingStartDelaySeconds: 0.4,
+        typingDurationSeconds: 3.5,
+      },
+      {
+        text: "But you also add a certain ineffable… <i>je ne sais quoi</i>…",
+        typingStartDelaySeconds: 0.35,
+        typingDurationSeconds: 4,
+      },
+      {
+        text: "you fill the lab with your unique wisdom and humor. And the way you solve creative problems is really interesting to me.",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 6.5,
+      },
+      {
+        text: "But in general, I’m really grateful that we seamlessly fade in and out of creative energy.",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 5,
+      },
+      {
+        text: "I need fade in and out of creative energy as easily as fading in and out of sleep. And I’m grateful that “you get it”.",
+        typingStartDelaySeconds: 1.1,
+        typingDurationSeconds: 6.5,
+      },
+    ],
+  },
   goat: {
     messages: [
       {
