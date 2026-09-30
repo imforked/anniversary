@@ -18,6 +18,11 @@ export const Bubble = styled.p`
   line-height: 1.35;
   color: var(--color-text);
   background-color: #ececec;
+
+  i,
+  em {
+    font-style: italic;
+  }
 `;
 
 export const PhotoBubble = styled.div`
