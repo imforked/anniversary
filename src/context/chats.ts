@@ -128,6 +128,60 @@ export const chats = {
       },
     ],
   },
+  "our-good-times": {
+    messages: [
+      {
+        text: "Spending time with you felt good from minute one.",
+        typingStartDelaySeconds: 1,
+        typingDurationSeconds: 3.5,
+      },
+      {
+        text: "Sitting at Teardrop talking and sharing space resonated deeply with me.",
+        typingStartDelaySeconds: 0.8,
+        typingDurationSeconds: 4.5,
+      },
+      {
+        text: "And that energy has crescendoed every day since.",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I feel it when we’re having an affair over cigars.",
+        typingStartDelaySeconds: 0.4,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I feel it when we’re eating M&Ms and popcorn.",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I feel it when we’re recovering after a tough moment.",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I feel it when we cry under our Harvest Moon.",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "🌙",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 1.5,
+      },
+      {
+        text: "Spending time with you is my favorite thing to do pb",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 4,
+      },
+      {
+        text: "See you soon!",
+        typingStartDelaySeconds: 1.1,
+        typingDurationSeconds: 2.5,
+      },
+    ],
+  },
   goat: {
     messages: [
       {

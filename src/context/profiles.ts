@@ -186,6 +186,7 @@ export const profiles: Profile[] = [
   {
     id: "our-good-times",
     name: "Our Good Times",
+    chat: chats["our-good-times"],
     photo: {
       src: "/profiles/good-times/pfp.jpg",
       alt: "Our Good Times",
