@@ -182,6 +182,100 @@ export const chats = {
       },
     ],
   },
+  us: {
+    messages: [
+      {
+        text: "Look at uuussss!",
+        typingStartDelaySeconds: 1,
+        typingDurationSeconds: 2,
+      },
+      {
+        text: "We’re so beautiful, fun, hot, and stylish!!",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 3.5,
+      },
+      {
+        text: "Sorry, everyone else.",
+        typingStartDelaySeconds: 0.4,
+        typingDurationSeconds: 2,
+      },
+      {
+        text: "But also…",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 1.5,
+      },
+      {
+        text: "I’m so proud of what we’re building together.",
+        typingStartDelaySeconds: 0.35,
+        typingDurationSeconds: 3.5,
+      },
+      {
+        text: "I love how we communicate.",
+        typingStartDelaySeconds: 0.4,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I love how we come together after challenges.",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I love how we come together 😊",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I love how we push each other to be the best we can, even if it’s being the best slug in the world.",
+        typingStartDelaySeconds: 0.4,
+        typingDurationSeconds: 6.5,
+      },
+      {
+        text: "And I love that it gets better every day.",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I can feel it.",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 2,
+      },
+      {
+        text: "I get more excited to see you",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "More desirous of you",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2,
+      },
+      {
+        text: "More interested in how you think",
+        typingStartDelaySeconds: 0.25,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "I can go on and on…",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "Our relationship is the most important project I’ve been a part of and I’m so grateful to be a part of it.",
+        typingStartDelaySeconds: 0.8,
+        typingDurationSeconds: 6.5,
+      },
+      {
+        text: "I’m excited for year 2 with you!",
+        typingStartDelaySeconds: 0.7,
+        typingDurationSeconds: 3,
+      },
+      {
+        text: "I love you little rabbit ❤️",
+        typingStartDelaySeconds: 1.1,
+        typingDurationSeconds: 3,
+      },
+    ],
+  },
   goat: {
     messages: [
       {
