@@ -256,6 +256,10 @@ export const profiles: Profile[] = [
         alt: "Kari showing clam.",
       },
       {
+        type: "video",
+        src: "/profiles/good-times/squirrel.mp4",
+      },
+      {
         type: "image",
         src: "/profiles/good-times/the-goat.jpg",
         alt: "Kari is the goat.",
