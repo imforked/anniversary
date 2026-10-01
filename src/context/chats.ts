@@ -166,7 +166,7 @@ export const chats = {
         typingDurationSeconds: 3,
       },
       {
-        text: "🌙",
+        text: "🌕",
         typingStartDelaySeconds: 0.25,
         typingDurationSeconds: 1.5,
       },
