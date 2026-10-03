@@ -73,7 +73,7 @@ export const chats = {
         typingDurationSeconds: 3,
       },
       {
-        text: "I love you all.",
+        text: "Thank you.",
         typingStartDelaySeconds: 0.7,
         typingDurationSeconds: 3,
       },
@@ -93,7 +93,7 @@ export const chats = {
       {
         text: "I'm so grateful you're an artist 😩",
         typingStartDelaySeconds: 0.8,
-        typingDurationSeconds: 5,
+        typingDurationSeconds: 3.5,
       },
       {
         text: "You're not only supportive of my interests...",
