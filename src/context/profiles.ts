@@ -57,6 +57,11 @@ export const profiles: Profile[] = [
         src: "/profiles/kari-walks/sweet-treat.jpg",
         alt: "Mid-walk sweet treat.",
       },
+      {
+        type: "text",
+        prompt: "I'm weirdly attracted to",
+        answer: "Your knowledge of Gulch cats.",
+      },
     ],
   },
   {
@@ -118,7 +123,7 @@ export const profiles: Profile[] = [
       {
         type: "text",
         prompt: "Green flags I look for",
-        answer: "Sweet, well-adjusted, weirdos.",
+        answer: "Sweet, genius, weirdos.",
       },
       {
         type: "image",
@@ -139,6 +144,12 @@ export const profiles: Profile[] = [
         src: "/profiles/the-ladies/smells.jpg",
         prompt: "I won't shut up about",
         alt: "Smell addict.",
+      },
+      {
+        type: "text",
+        prompt: "My happy place",
+        answer:
+          "is Peebers greeting me with love every time I open your front door (unless the queen is napping, which is fair).",
       },
     ],
   },
@@ -265,6 +276,11 @@ export const profiles: Profile[] = [
         alt: "Kari is the goat.",
         prompt: "Green flags I look for",
       },
+      {
+        type: "text",
+        prompt: "A random fact I love",
+        answer: "Is that you love spending time with me too",
+      },
     ],
   },
   {
@@ -299,7 +315,7 @@ export const profiles: Profile[] = [
       {
         type: "text",
         prompt: "Together we could",
-        answer: "Have good conversations and learn tricks.",
+        answer: "Have a good conversation over drinks.",
       },
     ],
   },
@@ -324,8 +340,8 @@ export const profiles: Profile[] = [
       },
       {
         type: "text",
-        prompt: "Green flags I look for",
-        answer: "Sweet, well-adjusted, weird ladies.",
+        prompt: "I know the best spot in town for",
+        answer: "hugs",
       },
       {
         type: "image",
@@ -368,6 +384,11 @@ export const profiles: Profile[] = [
         alt: "Huh.",
       },
       {
+        type: "text",
+        prompt: "I recently discovered that",
+        answer: "I can be gay for a girl",
+      },
+      {
         type: "image",
         src: "/profiles/us/japanese-gardens-babes.jpg",
         alt: "Japanese gardens babes.",
@@ -382,6 +403,11 @@ export const profiles: Profile[] = [
         src: "/profiles/us/park-cuties.jpg",
         alt: "Park cuties.",
         prompt: "A life goal of mine",
+      },
+      {
+        type: "text",
+        prompt: "My Love Language is",
+        answer: "You breathing and enjoying your life",
       },
       {
         type: "image",
