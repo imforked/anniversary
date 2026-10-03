@@ -270,6 +270,7 @@ export const profiles: Profile[] = [
   {
     id: "parrot",
     name: "Parrot",
+    chat: chats.parrot,
     photo: {
       src: "/profiles/parrot/pfp.png",
       alt: "Parrot",

@@ -312,4 +312,31 @@ export const chats = {
       },
     ],
   },
+  parrot: {
+    messages: [
+      {
+        type: "audio",
+        src: "/profiles/parrot/chat/gimme-kiss-1.m4a",
+        typingStartDelaySeconds: 0.5,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        type: "audio",
+        src: "/profiles/parrot/chat/ily-big-baby.m4a",
+        typingStartDelaySeconds: 4,
+        typingDurationSeconds: 3,
+      },
+      {
+        type: "audio",
+        src: "/profiles/parrot/chat/gimme-kiss-2.m4a",
+        typingStartDelaySeconds: 5,
+        typingDurationSeconds: 2.5,
+      },
+      {
+        text: "gimme kiss now",
+        typingStartDelaySeconds: 5,
+        typingDurationSeconds: 2.5,
+      },
+    ],
+  },
 } satisfies Record<string, ProfileChat>;
