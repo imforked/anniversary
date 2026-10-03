@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { AnimatePresence, LayoutGroup } from "motion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Dashboard } from "../components/Dashboard";
 import { Loader } from "../components/Loader";
@@ -38,7 +38,7 @@ const layoutTransition = {
 };
 
 const passTransition = {
-  duration: 0.16,
+  duration: 0.32,
   ease: [0.32, 0.72, 0, 1] as const,
 };
 
@@ -73,9 +73,12 @@ const renderFeed = (
   options: {
     interactive: boolean;
     likedIndex: number | null;
+    suppressLayout?: boolean;
     onLike?: (index: number) => void;
   },
 ) => {
+  const useLayout = options.interactive && !options.suppressLayout;
+
   return (
     <S.Feed>
       {person.blocks.map((block, index) => {
@@ -85,7 +88,8 @@ const renderFeed = (
         return (
           <S.FeedCard
             key={blockLayoutId}
-              layoutId={options.interactive ? blockLayoutId : undefined}
+            layout={useLayout}
+            layoutId={useLayout ? blockLayoutId : undefined}
             transition={layoutTransition}
             style={
               options.interactive && options.likedIndex !== null && !isSelected
@@ -121,6 +125,7 @@ export const DiscoverPage = () => {
   const [isLoading, setIsLoading] = useState(showLoaderOnMount);
   const [profileIndex, setProfileIndex] = useState(0);
   const [likedIndex, setLikedIndex] = useState<number | null>(null);
+  const [isPassing, setIsPassing] = useState(false);
   const [pendingMatch, setPendingMatch] = useState<PendingMatch | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -206,6 +211,7 @@ export const DiscoverPage = () => {
       return;
     }
 
+    setIsPassing(true);
     passProfile(profile.id);
   };
 
@@ -235,34 +241,49 @@ export const DiscoverPage = () => {
           <S.Body>
             {visibleProfile ? (
               <>
-                {nextProfile ? (
-                  <S.WarmupPane aria-hidden="true">
-                    {renderFeed(nextProfile, {
-                      interactive: false,
-                      likedIndex: null,
-                    })}
-                  </S.WarmupPane>
-                ) : null}
-                <S.Scrollable ref={scrollRef}>
-                  <AnimatePresence
-                    mode="wait"
-                    onExitComplete={handlePassExitComplete}
-                  >
-                    <motion.div
+                <AnimatePresence onExitComplete={handlePassExitComplete}>
+                  {visibleProfile ? (
+                    <S.Scrollable
                       key={visibleProfile.id}
-                      initial={{ opacity: 0, x: 24 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -24 }}
+                      ref={scrollRef}
+                      layout={false}
+                      initial={{ opacity: 0, x: 24, zIndex: 2 }}
+                      animate={{ opacity: 1, x: 0, zIndex: 2 }}
+                      exit={{ opacity: 0, x: -24, zIndex: 1 }}
                       transition={passTransition}
+                      onAnimationComplete={(definition) => {
+                        if (definition === "exit") {
+                          return;
+                        }
+
+                        setIsPassing(false);
+                      }}
                     >
                       {renderFeed(visibleProfile, {
                         interactive: true,
                         likedIndex,
+                        suppressLayout: isPassing,
                         onLike: setLikedIndex,
                       })}
-                    </motion.div>
-                  </AnimatePresence>
-                </S.Scrollable>
+                    </S.Scrollable>
+                  ) : null}
+                  {nextProfile ? (
+                    <S.Scrollable
+                      key={nextProfile.id}
+                      layout={false}
+                      aria-hidden="true"
+                      initial={{ opacity: 0, x: 24, zIndex: 0 }}
+                      animate={{ opacity: 0, x: 24, zIndex: 0 }}
+                      transition={passTransition}
+                      style={{ pointerEvents: "none" }}
+                    >
+                      {renderFeed(nextProfile, {
+                        interactive: false,
+                        likedIndex: null,
+                      })}
+                    </S.Scrollable>
+                  ) : null}
+                </AnimatePresence>
                 <AnimatePresence>
                   {likedBlock === null && !pendingMatch ? (
                     <S.PassButton

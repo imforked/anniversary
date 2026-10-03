@@ -32,19 +32,10 @@ export const Body = styled.div`
   overflow: hidden;
 `;
 
-export const WarmupPane = styled.div`
+export const Scrollable = styled(motion.div)`
   position: absolute;
   inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transform: translate3d(100%, 0, 0);
-`;
-
-export const Scrollable = styled.div`
-  position: relative;
   z-index: 1;
-  height: 100%;
   overflow-y: auto;
   overscroll-behavior: none;
   background-color: #ffffff;
